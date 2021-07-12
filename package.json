@@ -1,0 +1,26 @@
+{
+  "name": "joanoor.github.io",
+  "version": "1.0.0",
+  "description": "通过jekyll搭建的个人blog",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:dev": "gulp --develop"
+  },
+  "author": "joanoor",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.14.6",
+    "@babel/preset-env": "^7.14.7",
+    "babel-loader": "^8.2.2",
+    "eslint": "^7.29.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "gulp": "^4.0.2",
+    "gulp-clean": "^0.4.0",
+    "prettier": "^2.3.2",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "webpack": "^5.40.0",
+    "webpack-node-externals": "^3.0.0"
+  }
+}

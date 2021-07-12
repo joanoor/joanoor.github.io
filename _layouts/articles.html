@@ -1,0 +1,33 @@
+---
+layout: framework
+sidebar: category-list
+---
+
+
+
+<div class="articles">
+  {% if page.banner == nil %}
+  {% assign banner = page.title %}
+  {% endif %}
+
+  {{ content }}
+
+  {% include views/pagination.html %}
+</div>
+<script>
+  $.ajax( {
+    url: config.bingPic,
+    type: 'GET',
+    data: {
+      export: 'json',
+      idx: 0
+    },
+    success: function ( res ) {
+      if ( res.code === 200 ) {
+        $( '.bannerimg' ).css( 'background-image',
+          "url( " + res.img_url + " )"
+        )
+      }
+    }
+  } )
+</script>

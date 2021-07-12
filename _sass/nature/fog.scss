@@ -1,0 +1,40 @@
+.xt-fog-container {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.xt-fog-img {
+  position: absolute;
+  height: 100vh;
+  width: 300vw;
+}
+
+.xt-fog-img-first {
+  background: url('../imgs/fog-1.png') repeat-x;
+  background-size: contain;
+  background-position: center;
+  animation: marquee 60s linear infinite;
+}
+
+.xt-fog-img-second {
+  background: url('../imgs/fog-2.png') repeat-x;
+  background-size: contain;
+  background-position: center;
+  animation: marquee 40s linear infinite;
+}
+
+@keyframes marquee {
+  0% {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+
+  100% {
+    -webkit-transform: translate3d(-200vw, 0, 0);
+    transform: translate3d(-200vw, 0, 0);
+  }
+}

@@ -1,0 +1,218 @@
+.container-wrapper {
+  display: block;
+  position: fixed;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+
+  // background: url(http://h2.ioliu.cn/bing/SleepingArcticFox_ZH-CN8743925021_1920x1080.jpg)
+  // top left no-repeat #666666;
+  // background-size: cover;
+  .cloud {
+    -webkit-transition: fill 2s ease;
+    transition: fill 2s ease;
+  }
+
+  #cloud1 {
+    fill: #efefef;
+  }
+
+  #cloud2 {
+    fill: #e6e6e6;
+  }
+
+  #cloud3 {
+    fill: #d5d5d5;
+  }
+
+  .user-info {
+    position: absolute;
+    z-index: 1;
+    font-family: FZFSJT;
+    letter-spacing: 4px;
+    color: #fff;
+    width: 1em;
+  }
+
+  .user-info1 {
+    top: 4em;
+    right: 5em;
+  }
+
+  .user-info2 {
+    top: 13em;
+    right: 5em;
+  }
+
+  .user-info3 {
+    top: 5.15em;
+    right: 6.5em;
+  }
+
+  .user-info4 {
+    top: 14.15em;
+    right: 6.5em;
+  }
+
+  .container-wrapper__innder {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(68, 68, 68, 0.6);
+    background-image: -webkit-linear-gradient(
+      -410deg,
+      rgba(68, 68, 68, 0.6) 20%,
+      rgba(0, 0, 0, 0.9)
+    );
+    background-image: linear-gradient(
+      140deg,
+      rgba(68, 68, 68, 0.6) 20%,
+      rgba(0, 0, 0, 0.9)
+    );
+  }
+
+  .container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    .container-main {
+      .user-image {
+        margin-bottom: 1.2em;
+        position: relative;
+        width: 100px;
+        height: 100px;
+        border: 3px solid #fff;
+        border-radius: 100%;
+      }
+    }
+  }
+}
+
+.navigation__item {
+  display: inline-block;
+  margin: 0 1em 0 0;
+  line-height: 1em;
+
+  &:last-child {
+    margin: 0;
+  }
+}
+
+.navigation__item a {
+  display: block;
+  position: relative;
+  width: 38px;
+  height: 38px;
+  font-size: 0.9em;
+  font-weight: bold;
+  letter-spacing: 1px;
+  border-radius: 50%;
+  border: solid 1px white;
+  position: relative;
+  color: #fff;
+  opacity: 0.8;
+
+  i {
+    display: block;
+    line-height: 38px;
+    margin: 0 auto;
+    font-size: 1.1em;
+  }
+
+  .label {
+    display: none;
+  }
+}
+
+.navigation__item a:hover {
+  color: #fff;
+  border-color: #fff;
+  opacity: 1;
+}
+
+.container-block {
+  position: relative;
+  // padding: 0 60px;
+  min-width: 310px;
+}
+
+.container-inverted {
+  font-weight: 100;
+  text-align: center;
+  color: #fff;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+}
+
+.container-bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1;
+
+  .svg-stag {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.poerty {
+  font-size: 1.3em;
+  font-family: 'Times New Roman';
+  text-shadow: 3px 3px 2px #555;
+}
+
+/* 页面帮助助手 */
+.assistant-content {
+  display: none;
+  width: 16em;
+  height: 23em;
+  background: #fff;
+  border-radius: 0.5em;
+  bottom: 5.5em;
+  right: 2em;
+  z-index: 2;
+}
+.assistant {
+  width: 3em;
+  height: 3em;
+  border-radius: 10000px;
+  // background: transparent;
+  background: rgba(255, 255, 255, 1);
+  bottom: 2em;
+  right: 2em;
+  z-index: 2;
+}
+.icondengpao {
+  font-size: 2em;
+  color: #000;
+}
+
+@media all and (min-width: 960px) {
+  .container-time {
+    font-size: 140px;
+  }
+  .user-info {
+    font-size: 1.6em;
+  }
+}
+
+@media all and (max-width: 960px) {
+  .container-time {
+    font-size: 80px;
+  }
+  .user-info {
+    font-size: 0.8em;
+  }
+}
+
+@media all and (max-width: 600px) {
+  .user-info {
+    display: none;
+  }
+}
