@@ -15,7 +15,6 @@ if (!isDev) {
 
 const webpackConfig = {
   mode: isDev ? 'development' : 'production',
-  devtool: isDev ? 'source-map' : 'none',
   entry: ['./lib/index'],
   output: {
     path: destDir,
@@ -74,9 +73,11 @@ function convertScript() {
 
 function cleanDist() {
   console.log('开始清理assets/js文件夹下文件...')
-  return src(['bundle.js', 'bundle.js.map'], { cwd: destDir, base: destDir }).pipe(
-    clean()
-  )
+  return src(['bundle.js', 'bundle.js.map'], {
+    cwd: destDir,
+    base: destDir,
+    allowEmpty: true
+  }).pipe(clean())
 }
 
 function listen() {

@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start:dev": "gulp --develop"
+    "start:dev": "gulp --develop",
+    "build": "gulp"
   },
   "author": "joanoor",
   "license": "ISC",
