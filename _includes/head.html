@@ -16,16 +16,19 @@
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   {% endif %}
   <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-noto-sans@0.0.72/index.min.css"> -->
-  <link rel="stylesheet" href="{{ site.url }}/assets/css/main.css">
-  <link rel="stylesheet" href="{{ site.url }}/assets/fonts/YuWeiXS/YuWeiXingShu.css">
-  <script src=" {{ site.url }}/assets/js/main.js"></script>
-  <script type="text/javascript" src="{{ site.url }}/assets/js/config.js></script>
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="/assets/fonts/YuWeiXS/YuWeiXingShu.css">
+  <script src=" /assets/js/main.js"></script>
+  <script type="text/javascript" src="/assets/js/config.js"></script>
+  {% if jekyll.environment == "development" %}
+  <script type=" text/javascript" src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+  {% else %}
   <script type=" text/javascript" src="https://pv.sohu.com/cityjson?ie=utf-8"></script>
+  {% endif %}
   <link rel="stylesheet" href="https://at.alicdn.com/t/font_2450644_rkt3e1lldp.css">
-
-  <link rel="stylesheet" href="{{ site.url }}/assets/css/main.css">
-  <script src="{{ site.url }}/assets/js/zepto.min.js"></script>
-  <script src="{{ site.url }}/assets/js/snap.svg-min.js"></script>
-  <script src="{{ site.url }}/assets/js/gsap.min.js"></script>
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <script src="/assets/js/zepto.min.js"></script>
+  <script src="/assets/js/snap.svg-min.js"></script>
+  <script src="/assets/js/gsap.min.js"></script>
   {% include extensions/code-highlight.html %}
 </head>

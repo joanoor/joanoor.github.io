@@ -2,48 +2,49 @@ const { watch, series, src } = require('gulp')
 const clean = require('gulp-clean')
 const { resolve } = require('path')
 const { webpack } = require('webpack')
-const nodeExternals = require('webpack-node-externals')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
 
 const isDev = process.argv.indexOf('--develop') >= 0
 const destDir = resolve(__dirname, './assets/js')
 
-let plugins = []
-if (!isDev) {
-  plugins = [...plugins, new UglifyJsPlugin()]
-}
-
 const webpackConfig = {
   mode: isDev ? 'development' : 'production',
-  entry: ['./lib/index'],
+  entry: ['./lib/index.js'],
   output: {
     path: destDir,
     filename: 'bundle.js',
-    libraryTarget: 'umd',
-    globalObject: 'this'
+    library: {
+      type: 'umd'
+    }
   },
-  target: 'node',
-  externals: [nodeExternals()],
+  target: 'browserslist',
   module: {
     rules: [
       {
-        test: /\.(js)$/i,
+        test: /\.m?js$/,
+        exclude: /node_modules/,
         use: [
           {
-            loader: 'babel-loader',
-            options: {
-              presets: ['@babel/preset-env'],
-              cacheDirectory: true
-            }
+            loader: 'babel-loader'
           }
         ]
       }
     ]
   },
-  resolve: {
-    extensions: ['.js', '.json']
-  },
-  plugins
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        parallel: true,
+        terserOptions: {
+          compress: {
+            drop_console: true,
+            drop_debugger: true
+          }
+        }
+      })
+    ]
+  }
 }
 
 const webpackCallback = (err, stats) => {
@@ -67,8 +68,12 @@ const webpackCallback = (err, stats) => {
 }
 
 function convertScript() {
-  // webpackConfig.entry = jsFileMap
-  webpack(webpackConfig).run(webpackCallback)
+  console.log('开始执行js转换...')
+  if (isDev) {
+    webpack(Object.assign(webpackConfig, { devtool: 'source-map' })).run(webpackCallback)
+  } else {
+    webpack(webpackConfig).run(webpackCallback)
+  }
 }
 
 function cleanDist() {
@@ -91,3 +96,4 @@ function build(cb) {
 }
 
 exports.default = series(cleanDist, build, listen)
+exports.build = series(cleanDist, build)
