@@ -7,24 +7,19 @@
   {% seo %}
   <link rel="shortcut icon" href="{{ site.favicon }}">
   {% if jekyll.environment == "development" %}
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/fontawesome.min.js"
-    integrity="sha512-KCwrxBJebca0PPOaHELfqGtqkUlFUCuqCnmtydvBSTnJrBirJ55hRG5xcP4R9Rdx9Fz9IF3Yw6Rx40uhuAHR8Q=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  {% assign http = 'http' %}
   {% else %}
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/fontawesome.min.js"
+  {% assign http = 'https' %}
+  {% endif %}
+  <script src="{{http}}://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/fontawesome.min.js"
     integrity="sha512-KCwrxBJebca0PPOaHELfqGtqkUlFUCuqCnmtydvBSTnJrBirJ55hRG5xcP4R9Rdx9Fz9IF3Yw6Rx40uhuAHR8Q=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  {% endif %}
   <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-noto-sans@0.0.72/index.min.css"> -->
   <link rel="stylesheet" href="/assets/css/main.css">
   <link rel="stylesheet" href="/assets/fonts/YuWeiXS/YuWeiXingShu.css">
   <script src=" /assets/js/main.js"></script>
   <script type="text/javascript" src="/assets/js/config.js"></script>
-  {% if jekyll.environment == "development" %}
-  <script type=" text/javascript" src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
-  {% else %}
-  <script type=" text/javascript" src="https://pv.sohu.com/cityjson?ie=utf-8"></script>
-  {% endif %}
+  <script type=" text/javascript" src="{{http}}://pv.sohu.com/cityjson?ie=utf-8"></script>
   <link rel="stylesheet" href="https://at.alicdn.com/t/font_2450644_rkt3e1lldp.css">
   <link rel="stylesheet" href="/assets/css/main.css">
   <script src="/assets/js/zepto.min.js"></script>

@@ -5,11 +5,13 @@ subheading: A awesome static site generator.
 author: Jeffrey
 categories: jekyll
 banner:
-  video: https://vjs.zencdn.net/v/oceans.mp4
+  # video: https://vjs.zencdn.net/v/oceans.mp4
+  video: https://tencent-xpc16.xpccdn.com/5a087784051b3.mp4
   loop: true
   volume: 0.8
   start_at: 8.5
-  image: https://bit.ly/3xTmdUP
+  # image: https://bit.ly/3xTmdUP
+  image: https://cs.xinpianchang.com/uploadfile/article/2017/11/13/5a087781cbc2a.jpeg
   opacity: 0.618
   background: "#000"
   height: "100vh"
