@@ -1,6 +1,7 @@
 window.config = {
   heKey: 'bd593d99e47f4943adbeabb9b8ccc9f1', // 和风天气
   key: 'CDDBZ-FBNH2-XCYUZ-CB74S-PK35F-4ABJK', // 腾讯地图
+  througnIpGetLatLon: 'https://apis.map.qq.com/ws/location/v1/ip',
   heWeatherNow: 'https://devapi.heweather.net/v7/weather/now',
   heWeatherSunMoon: 'https://devapi.qweather.com/v7/astronomy/sunmoon',
   weatherIcon:

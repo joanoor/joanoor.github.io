@@ -6,7 +6,7 @@ module.exports = {
     commonjs: true,
     jquery: true
   },
-  extends: ['eslint:recommended', 'plugin:prettier/recommended'],
+  extends: ['plugin:prettier/recommended'],
   parserOptions: {
     ecmaVersion: 12,
     sourceType: 'module'
