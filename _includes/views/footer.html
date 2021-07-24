@@ -9,17 +9,12 @@
         <!-- <div>Powered by <a title="Jekyll is a simple, blog-aware, static site
         generator." href="http://jekyllrb.com/">Jekyll</a> &amp; <a title="Yat, yet
         another theme." href="https://github.com/jeffreytse/jekyll-theme-yat">Yat Theme</a>.</div> -->
-        <!-- <div class="footer-col rss-subscribe">Subscribe <a href="{{ " /feed.xml" | relative_url }}">via RSS</a></div> -->
-      </div>
-      <div class="site-footer-inner-right">
-        <h1>&nbsp;</h1>
-        <!-- <div class="contract">Contract</div> -->
         <div class="flex">
           {% for contract in site.contracts %}
-          <i class="iconfont {{contract}} cursor-pointer"></i>
+          <i class="iconfont {{contract}} cursor-pointer" style="font-size:1.4em;margin-right:0.6em"></i>
           {% endfor %}
         </div>
-
+        <!-- <div class="footer-col rss-subscribe">Subscribe <a href="{{ " /feed.xml" | relative_url }}">via RSS</a></div> -->
       </div>
     </div>
   </div>

@@ -171,10 +171,10 @@ paginate_path: "/start/page:num"
 
 # Gitment comments
 gitment:
-  username: "Your GitHub username"
-  repo: "The repo to store comments"
-  client_id: "Your client ID"
-  client_secret: "Your client secret"
+  username: "Joanor"
+  repo: "git@github.com:joanor/joanor.github.io.git"
+  client_id: "d9cf11cf799e8c30d259"
+  client_secret: "14500fb9b675972d8a8bc4b7ddded14e36328b34"
   redirect_uri: "Your redirect url"   # If you use a custom domain name
 
 # Build settings
@@ -211,6 +211,3 @@ contracts:
 
 footer:
   desc: "欲买桂花同载酒，终不似，少年游！"
-
-excerpt_separator: <!--more-->
-encoding: UTF-8
