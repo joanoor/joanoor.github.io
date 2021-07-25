@@ -11,9 +11,34 @@
         another theme." href="https://github.com/jeffreytse/jekyll-theme-yat">Yat Theme</a>.</div> -->
         <div class="flex">
           {% for contract in site.contracts %}
-          <i class="iconfont {{contract}} cursor-pointer" style="font-size:1.4em;margin-right:0.6em"></i>
+          {% if contract == 'iconnews-fill' %}
+          <a class="contract-me" href="mailto:xixi090830@gmail.com">
+            <i class="iconfont {{contract}} cursor-pointer" id="{{contract}}"
+              style="font-size:1.4em;margin-right:0.6em"></i>
+          </a>
+          {% elsif contract == 'iconweixin' %}
+          <i class="iconfont {{contract}} cursor-pointer" id="{{contract}}" style="font-size:1.4em;margin-right:0.6em">
+
+          </i>
+          {% else %}
+          <a class="contract-me" href="https://github.com/joanor/joanor.github.io">
+            <i class="iconfont {{contract}} cursor-pointer" id="{{contract}}"
+              style="font-size:1.4em;margin-right:0.6em"></i>
+          </a>
+          {% endif %}
           {% endfor %}
         </div>
+        <script>
+          // $( '#iconweixin' ).on( 'click', function () {
+          //   layer.open( {
+          //     title: '联系我',
+          //     type: 1,
+          //     area: [ '600px', '360px' ],
+          //     shadeClose: true, //点击遮罩关闭
+          //     content: '\<\div style="padding:20px;">自定义内容\<\/div>'
+          //   } );
+          // } );
+        </script>
         <!-- <div class="footer-col rss-subscribe">Subscribe <a href="{{ " /feed.xml" | relative_url }}">via RSS</a></div> -->
       </div>
     </div>
