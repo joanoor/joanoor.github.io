@@ -1,0 +1,4 @@
+*.md
+*.scss
+node_modules/
+bundle.js
