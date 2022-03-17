@@ -6,6 +6,7 @@ import { notify } from './utils'
 export const http = createAxios({
   requestOptions: {
     isTransformResponse: false,
+    joinTimestamp: false,
   },
   transform: {
     transformRequestHook(res: AxiosResponse, options: RequestOptions) {
