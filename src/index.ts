@@ -7,10 +7,9 @@ const config = window.config
 // alert(returnCitySN['cip']+returnCitySN['cname']) // sohu接口通过script标签引入之后的数据
 // script标签不加async或者defer，它就会阻塞文档的渲染，等js加载完成，才会继续渲染
 
-console.log('initRequestData', initRequestData)
-
 // 浏览器获取用户经纬度成功时执行
 const handleSuccess: PositionCallback = pos => {
+  console.log('成功！执行这里...')
   const { latitude, longitude } = pos.coords
   console.log('经纬度', latitude, longitude)
   initRequestData(latitude, longitude)
@@ -20,6 +19,7 @@ const handleSuccess: PositionCallback = pos => {
 const handleError: PositionErrorCallback = (
   error: GeolocationPositionError
 ) => {
+  console.log('失败，执行这里...')
   const { message } = error
   notify(message)
   throughIpGetLatLon()
