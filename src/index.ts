@@ -16,6 +16,7 @@ const getUserLatLng = async () => {
     url: config.througnIpGetLatLon,
     data: {
       key: config.txMapKey,
+      output: 'jsonp',
     },
     dataType: 'jsonp',
   })
