@@ -1,20 +1,6 @@
-/**
- * 该文件存放的是天气以及动画效果
- * 1.白云
- * 2.乌云
- * 3.太阳
- * 4.月亮（圆月）
- * 5.月亮（月牙）
- * 6.下雨
- * 7.下雪
- * 8.夜晚星空
- * 9.流星
- * 10.风车
- * 11.起雾
- */
-
-import { formatTime } from 'ivy2'
-import { http } from '../request'
+import dayjs from 'dayjs'
+import { request } from '../request'
+import type { NowApiResponse, Now, Sun, Moon } from '../request'
 import { notify } from '../utils'
 import * as clouds from './clouds'
 import * as fog from './fog'
@@ -24,7 +10,6 @@ import * as rain from './rain'
 import * as starry from './starry'
 import * as sun from './sun'
 import * as windmill from './windmill'
-import dayjs from 'dayjs'
 
 const modules = Object.assign(
   {},
@@ -40,48 +25,20 @@ const modules = Object.assign(
 const config = window.config
 
 let isDay = false // 是否白天
-const isNight = false // 是否夜晚
+let isNight = false // 是否夜晚
 let isMoonRise = false // 月亮是否升起
-
-interface NowApiResponse {
-  code: string
-  fxLink: string
-  now: Now
-  updateTime: string
-  [propName: string]: any
-}
-
-interface Now {
-  cloud: string
-  dew: string
-  feelsLike: string
-  humidity: string
-  icon: string
-  obsTime: string
-  precip: string
-  pressure: string
-  temp: string
-  text: string
-  vis: string
-  wind360: string
-  windDir: string
-  windScale: string
-  windSpeed: string
-  [propName: string]: string
-}
 
 // 获取实时天气
 const requestRealWeather = async (lat: number, lon: number) => {
-  const res = await http.get<Promise<NowApiResponse>>({
+  const res = await request<NowApiResponse>({
     url: config.qWeatherNowApi,
     data: {
       key: config.qWeatherKey,
       location: lon + ',' + lat,
     },
   })
-
-  const { code, now } = res
-  if (code === '200') {
+  if (res.code === '200') {
+    const { now } = res
     new Weather(now)
   } else {
     notify('获取实时天气失败')
@@ -90,24 +47,25 @@ const requestRealWeather = async (lat: number, lon: number) => {
 
 // 获取日出日落
 const requestSunStatus = async (lat: number, lon: number) => {
-  const res = await http.get({
+  const res = await request<Sun>({
     url: config.qWeatherSunApi,
     data: {
       key: config.qWeatherKey,
       location: lon + ',' + lat,
-      date: formatTime(undefined, 'YYYYMMDD'),
+      date: dayjs().format('YYYYMMDD'),
     },
   })
-
-  const { code, sunrise, sunset } = res
-  if (code === '200') {
+  if (res.code === '200') {
+    const { sunrise, sunset } = res
     const nowTime = dayjs().valueOf()
     const sunRiseTime = dayjs(sunrise).valueOf()
     const sunSetTime = dayjs(sunset).valueOf()
     if (nowTime < sunSetTime && nowTime > sunRiseTime) {
       isDay = true
+      isNight = false
     } else {
       isDay = false
+      isNight = true
     }
   } else {
     notify('获取日出日落失败')
@@ -116,16 +74,16 @@ const requestSunStatus = async (lat: number, lon: number) => {
 
 // 获取月升月落
 const requestMoonStatus = async (lat: number, lon: number) => {
-  const res = await http.get({
+  const res = await request<Moon>({
     url: config.qWeatherMoonApi,
     data: {
       key: config.qWeatherKey,
       location: lon + ',' + lat,
-      date: formatTime(undefined, 'YYYYMMDD'),
+      date: dayjs().format('YYYYMMDD'),
     },
   })
-  const { code, moonrise, moonset } = res
-  if (code === '200') {
+  if (res.code === '200') {
+    const { moonrise, moonset } = res
     const nowTime = dayjs().valueOf()
     const MoonRiseTime = dayjs(moonrise).valueOf()
     const MoonSetTime = dayjs(moonset).valueOf()
@@ -139,7 +97,7 @@ const requestMoonStatus = async (lat: number, lon: number) => {
   }
 }
 
-abstract class ABWeather {
+abstract class AWeather {
   abstract sunMina(): void
   abstract fullMoonMina(): void
   abstract halfMoonMina(): void
@@ -155,7 +113,7 @@ abstract class ABWeather {
   abstract windMillMina(): void
 }
 
-class Weather extends ABWeather {
+class Weather extends AWeather {
   constructor(data: Now) {
     super()
     this.initWeatherMina(data)

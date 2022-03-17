@@ -1,57 +1,95 @@
-import type { RequestOptions } from 'ivy2'
-import type { AxiosResponse } from 'axios'
-import { createAxios, checkStatus } from 'ivy2'
-import { notify } from './utils'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+interface Params {
+  url: string
+  type?: 'GET' | 'POST'
+  dataType?: 'json' | 'jsonp'
+  headers?: Recordable
+  data: Recordable
+}
 
-export const http = createAxios({
-  requestOptions: {
-    isTransformResponse: false,
-    joinTimestamp: false,
-  },
-  transform: {
-    transformRequestHook(res: AxiosResponse, options: RequestOptions) {
-      const { isTransformResponse, isReturnNativeResponse } = options
-      // 是否返回原生响应头，当下载获取header中的文件名时会用到
-      if (isReturnNativeResponse) {
-        return res
-      }
-      // 是否对响应结果进行处理，当不处理时
-      if (!isTransformResponse) {
-        return res.data
-      }
-    },
+interface ThroughIPGetLotLng {
+  message: string
+  status: number
+  result: {
+    ad_info: Recordable
+    ip: string
+    location: {
+      lat: number
+      lng: number
+    }
+  }
+}
 
-    /**
-     * @description response报错处理
-     * @param error
-     */
-    responseInterceptorsCatch: (error: any) => {
-      const { response, code, message, config } = error || {}
-      const errorMsgMode = config?.requestOptions?.errorMessageMode || 'none'
-      const msg: string = response?.data?.error?.message ?? ''
-      const err: string = error?.toString() ?? ''
-      let errMsg = ''
-      try {
-        if (code === 'ECONNABORTED' && message.indexOf('timeout') !== -1) {
-          errMsg = '接口请求超时，请刷新页面重试!'
-        }
-        if (err?.includes('Network Error')) {
-          errMsg = '网络异常，请检查您的网络连接是否正常'
-        }
-        if (errMsg) {
-          return Promise.reject(error)
-        }
-      } catch (error) {
-        throw new Error(error as unknown as string)
-      }
+interface Now {
+  cloud: string
+  dew: string
+  feelsLike: string
+  humidity: string
+  icon: string
+  obsTime: string
+  precip: string
+  pressure: string
+  temp: string
+  text: string
+  vis: string
+  wind360: string
+  windDir: string
+  windScale: string
+  windSpeed: string
+  [propName: string]: string
+}
+interface NowApiResponse {
+  code: string
+  fxLink: string
+  now: Now
+  updateTime: string
+  [propName: string]: any
+}
 
-      const { errMessage } = checkStatus(
-        error?.response?.status,
-        msg,
-        errorMsgMode
-      )
-      notify(errMessage)
-      return Promise.reject(error)
-    },
-  },
-})
+interface Sun {
+  code: string
+  fxLink: string
+  sunrise: string
+  sunset: string
+  updateTime: string
+  [propName: string]: any
+}
+
+interface MoonPhase {
+  fxTime: string
+  icon: string
+  illumination: string
+  name: string
+  value: string
+}
+
+interface Moon {
+  code: string
+  fxLink: string
+  moonrise: string
+  moonset: string
+  updateTime: string
+  moonPhase: MoonPhase[]
+  [propName: string]: any
+}
+
+const request = <T>(params: Params) => {
+  return new Promise<T>((resolve, reject) => {
+    $.ajax({
+      url: params.url,
+      type: params.type || 'GET',
+      dataType: params.dataType || 'json',
+      headers: params.headers || {},
+      data: params.data || {},
+      success: function (res) {
+        resolve(res)
+      },
+      error: function (err) {
+        reject(err)
+      },
+    })
+  })
+}
+
+export type { ThroughIPGetLotLng, NowApiResponse, Now, Sun, Moon }
+export { request }

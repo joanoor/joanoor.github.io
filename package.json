@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "core-js": "^3.21.1",
-    "ivy2": "^1.3.6",
+    "dayjs": "^1.11.0",
     "regenerator-runtime": "^0.13.9"
   }
 }
