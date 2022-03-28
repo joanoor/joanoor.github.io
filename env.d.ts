@@ -1,4 +1,7 @@
+/* eslint-disable @typescript-eslint/triple-slash-reference */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
+/// <reference path='node_modules/gsap/types/index.d.ts' />
 
 namespace ConfigModule {
   interface ClockStyle {
@@ -51,3 +54,5 @@ interface Window {
 }
 
 type Recordable<T = any> = Record<string, T>
+
+// declare module 'gsap' {}
