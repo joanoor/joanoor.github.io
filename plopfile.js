@@ -3,7 +3,17 @@ import { resolve } from 'path'
 
 // const viewsDir = resolve(__dirname, './_posts')
 
-const choiceList = ['设计模式']
+function setDatePrefix() {
+  const time = new Date()
+  const year = time.getFullYear()
+  const _month = time.getMonth() + 1
+  const _date = time.getDate()
+  const month = _month < 10 ? '0' + _month : _month
+  const date = _date < 10 ? '0' + _date : _date
+  return `${year}-${month}-${date}`
+}
+
+const choiceList = ['设计模式', '普通']
 
 export default function (
   /** @type {import('plop').NodePlopAPI} */
@@ -35,7 +45,7 @@ export default function (
       return [
         {
           type: 'add',
-          path: `_posts/{{name}}.md`,
+          path: `_posts/${setDatePrefix()}-{{name}}.md`,
           templateFile:
             data.type === '设计模式'
               ? './_drafts/2010-01-01-template.md'

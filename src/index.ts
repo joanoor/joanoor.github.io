@@ -5,6 +5,15 @@ import setClock from './clock'
 import initRequestData from './weathers'
 const config = window.config
 
+type Includes<T extends readonly unknown[], U> = T extends [
+  infer First,
+  ...infer Rest
+]
+  ? Equals<First, U> extends true
+    ? true
+    : Includes<Rest, U>
+  : false
+
 // script标签不加async或者defer，它就会阻塞文档的渲染，等js加载完成，才会继续渲染
 
 /**
