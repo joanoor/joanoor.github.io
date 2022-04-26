@@ -11,23 +11,93 @@ tags: [设计模式, ts]
 注意：类型操作符跟普通的运算符是不一样的，类型操作符有extends、typeof、in、keyof、索引[index:string]等，例如实现Equal操作  
 例如：
 ```ts
-// ts中实现Equal，判断两个类型是否相等
-type Equals<X, Y> =
-    (<T>() => T extends X ? 1 : 2) extends
-    (<T>() => T extends Y ? 1 : 2) ? true : false
-
 // ts中通过泛型实现tuple类型
 type C<T extends unknown[]> = readonly [...T] 
 
-// ts将字符串转成数组类型
+// NOTE:Remeneber 
+type F<S extends unknown[]> = S extends [infer F,...infer R] ? true : false
+type F2 = F<[]> 此时F2为false， ✔️ 说明[]不满足[infer F, ...infer R]的约束
+type S<S extends string>=S extends `${infer F}${infer R}` ? true : false
+type F3 = F<''> 此时F3为false， ✔️ 说明''不满足`${infer F}${infer R}`的约束
+```
+
+封装的工具方法：
+```ts
+// NOTE: Equal，判断两个类型是否相等
+type Equal<X, Y> =
+    (<T>() => T extends X ? 1 : 2) extends
+    (<T>() => T extends Y ? 1 : 2) ? true : false
+
+// NOTE: 字符串类型转成数组类型
 type StringToArray<S extends string> = S extends `${infer F}${infer R}` ? [F,...StringToArray<R>]:[]
 
-// NOTE:Remeneber 
-type F<S extends unknown[]>=S extends [infer F,...infer R] ? true : false
-type F2=F<[]> 此时F2为false， ✔️ 说明[]不满足[infer F, ...infer R]的约束
-type S<S extends string>=S extends `${infer F}${infer R}` ? true : false
-type F3=F<''> 此时F3为false， ✔️ 说明''不满足`${infer F}${infer R}`的约束
+// NOTE: 获取数组长度
+type Length<T extends any[]> = T["length"]
+
+// NOTE: 将数字转换成数组
+type Range<T extends number = 0, P extends any[] = []> = {
+  0: Range<T, [any, ...P]>;
+  1: P;
+}[Length<P> extends T ? 1 : 0]
+
+// NOTE: Concat，将两个数组类型连在一起
+type Concat<T extends any[], P extends any[]> = [...T, ...P]
+
+// NOTE: 加法
+type Add<A extends number, B extends number> = Length<
+  Concat<Range<A>, Range<B>>
+>
+
+// NOTE: 实现Array.Shift
+type Shift<T extends any[]> = T extends [any,...infer R] ? R : []
+
+// NOTE: 实现Array.Push
+type Push<T extends any[], E extends any = any> = [...T, E]
+
+// NOTE: IsEmpty
+type IsEmpty<T extends any[]> = T['length'] extends 0 ? true : false
+
+// NOTE: NotEmpty
+type NotEmpty<T extends any[]> = IsEmpty<T> extends true ? false : true
+
+// NOTE: 逻辑与
+type And<T extends boolean, U extends boolean> = T extends false 
+? false 
+: U extends false 
+  ? false
+  : true
+
+// NOTE: 小于等于
+type LessEqList<T extends any[], U extends any[]> = {
+  0: LessEqList<Shift<T>, Shift<U>>
+  1: true 
+  2: false
+}[
+  And<NotEmpty<T>,NotEmpty<U>> extends true 
+  ? 0 
+  : IsEmpty<T> extends true 
+    ? 1
+    : 2
+]
+type LessEq<T extends number, P extends number> = LessEqList<
+  Range<T>,
+  Range<P>
+>
+
+// NOTE: 减法
+type SubList<T extends any[], U extends any[] , Result extends any[] = []> = {
+  0: Length<Result>
+  1: SubList<Shift<T>, U , Push<Result>>
+}[Length<T> extends Length<U> ? 0 : 1]
+
+type Sub<T extends number, P extends number> = {
+  0: Sub<P, T>;
+  1: SubList<Range<T>, Range<P>>;
+}[LessEq<T, P> extends true ? 0 : 1]
+
 ```
+
+
 
 1. Pick
    ```ts
@@ -201,7 +271,8 @@ type F3=F<''> 此时F3为false， ✔️ 说明''不满足`${infer F}${infer R}`
     ```ts
     type ReplaceAll<S extends string, From extends string, To extends string> = From extends '' ? S : S extends `${infer F}${From}${infer R}` ? `${F}${To}${ReplaceAll<R,From,To>}`:S
     ```
-29. 实现泛型 `AppendArgument<Fn, A>`，对于给定的函数类型 `Fn`，以及一个任意类型 `A`，返回一个新的函数 `G`。`G` 拥有 `Fn` 的所有参数并在末尾追加类型为 `A` 的参数
+29. 实现泛型 `AppendArgument<Fn, A>`  
+    对于给定的函数类型 `Fn`，以及一个任意类型 `A`，返回一个新的函数 `G`。`G` 拥有 `Fn` 的所有参数并在末尾追加类型为 `A` 的参数
     ```ts
     type AppendArgument<Fn extends Function, A> = Fn extends (...args:infer T) => infer R? (...args:[...T,A]) => R : never
     ```
@@ -209,7 +280,7 @@ type F3=F<''> 此时F3为false， ✔️ 说明''不满足`${infer F}${infer R}`
     实现Permutation类型，将联合类型转换成所有可能排列的数组组成的联合类型
     ```type perm = Permutation<'A' | 'B' | 'C'>; // ['A', 'B', 'C'] | ['A', 'C', 'B'] | ['B', 'A', 'C'] | ['B', 'C', 'A'] | ['C', 'A', 'B'] | ['C', 'B', 'A']```
     ```ts
-    type Permutation<T, U = T> = [T] extends [never] ? [] : T extends U ? [T, ...Permutation<Exclude<U, T>>] : T
+    type Permutation<T, U = T> = [T] extends [never] ? [] : T extends U ? [T, ...Permutation<Exclude<U, T>>] : never
     ```
 31. 实现Length of String
     ```ts
@@ -246,4 +317,312 @@ type F3=F<''> 此时F3为false， ✔️ 说明''不满足`${infer F}${infer R}`
 37. 实现KebabCase
     ```ts
     type KebabCase<S> = S extends `${infer F}${infer L}` ? L extends Uncapitalize<L> ? `${Lowercase<F>}${KebabCase<L>}` : `${Lowercase<F>}-${KebabCase<L>}` : S
+    ```
+38. 实现Diff  
+    找出两个对象类型的不同之处
+    ```ts
+    type Diff<O extends Record<string,unknown>, O1 extends Record<string,unknown>> = {
+        [K in (Exclude<keyof O,keyof O1> | Exclude<keyof O1, keyof O>)]: K extends keyof O ? O[K]:K extends keyof O1?O1[K]:never
+    }
+    ```
+39. 🥇🥇 实现AnyOf
+    ```ts
+    type AnyOf<T extends readonly any[], C= 0 | "" | false | [] | {[propName:string]:never}> = T extends [infer F , ...infer R] 
+    ? F extends C ? AnyOf<R> 
+    : true : false
+    // 或者
+    type AnyOf<T extends readonly any[], C= 0 | "" | false | [] | {[propName:string]:never}> = T[number] extends C ? false : true
+    ```
+40. 实现IsNever
+    ```ts
+    type IsNever<T> = [T] extends [never] ? true : false 
+    ```
+41. 实现IsUnion
+    ```ts
+    type IsUnion<T,U = T> = T extends U ? [U] extends [T] ? false : true : never 
+    ```
+42. 实现ReplaceKey  
+    Implement a type ReplaceKeys, that replace keys in union types, if some type has not this key, just skip replacing, A type takes three arguments. 
+    ```ts
+    type ReplaceKeys<U, T, Y extends Record<string,unknown>, S = U> = U extends S
+    ? Extract<keyof U, T> extends never 
+    ? U 
+    : {
+    [K in keyof U]: K extends Extract<keyof U,T> ? K extends keyof Y ? Y[K] : never : U[K]
+    }
+    : never
+    ```
+43. 🥇🥇🥇 实现Remove Index Signature  
+    例如：
+    ```ts
+    type Foo = {
+    [key: string]: any;
+    foo(): void;
+    }
+
+    type A = RemoveIndexSignature<Foo>  // expected { foo(): void }
+    ```
+    ```ts
+    type RemoveIndexSignature<T> = {
+        [K in keyof T as K extends `${infer R}` ? R : never]: T[K]
+    }
+    // 或者
+    type RemoveIndexSignature<T extends Record<string, any>> = {
+        [K in keyof T as [T[K]] extends [undefined] ? never : K]: T[K]
+    }
+    ```
+44. 🥇🥇🥇 实现Percentage Parser  
+    实现：
+    ```ts
+    type PString1 = ''
+    type PString2 = '+85%'
+    type PString3 = '-85%'
+    type PString4 = '85%'
+    type PString5 = '85'
+
+    type R1 = PercentageParser<PString1>  // expected ['', '', '']
+    type R2 = PercentageParser<PString2>  // expected ["+", "85", "%"]
+    type R3 = PercentageParser<PString3>  // expected ["-", "85", "%"]
+    type R4 = PercentageParser<PString4>  // expected ["", "85", "%"]
+    type R5 = PercentageParser<PString5>  // expected ["", "85", ""]
+    ```
+    ```ts
+    type PercentageParser<S extends string> = S extends `${infer F}${infer R}` ? F extends '+' | '-'
+    ? R extends `${infer M}%`
+        ? [ F, M , '%']
+        : [ F, R, '']
+    : S extends `${infer M}%`
+        ? [ '', M, '%']
+        : [ '', R, '']
+    : ['', '', '']
+    ```
+45. 实现DropChar  
+    例如:
+    ```ts
+    type Butterfly = DropChar<' b u t t e r f l y ! ', ' '> // 'butterfly!'
+    ```
+    ```ts
+    type DropChar<S extends string, C extends string> = S extends `${infer T}${C}${infer R}` ? `${T}${DropChar<R,C>}` : S
+    ```
+46. 实现MinusOne  
+    例如：  
+    ```ts
+    type Zero = MinusOne<1> // 0
+    type FiftyFour = MinusOne<55> // 54
+    ```
+    ```ts
+    type MinusOne<T extends number,Result extends number[] = []> = T extends Result['length'] 
+    ? Result extends [infer _F,...infer R] 
+        ? R['length'] 
+        : 0 
+    : MinusOne<T, [...Result, T]>
+    ```
+47. 实现PickByType  
+    想要实现如下效果：  
+    ```ts
+    type OnlyBoolean = PickByType<{
+        name: string
+        count: number
+        isReadonly: boolean
+        isEnable: boolean
+    }, boolean> // { isReadonly: boolean; isEnable: boolean; }
+    ```
+    ```ts
+    type PickByType<T, U> = {
+        [K in keyof T as U extends T[K] ? K :never]: T[K]
+    }
+    ```
+48. 实现StartsWith
+    ```ts
+    type StartsWith<T extends string, U extends string> = T extends `${U}${infer _R}`
+    ? true
+    : false
+    ```
+49. 实现EndsWith
+    ```ts
+    type EndsWith<T extends string, U extends string> = T extends `${infer _F}${U}`? true : false
+    ```
+50. 🥇🥇 实现PartialByKeys  
+    例如：
+    ```ts
+    interface User {
+        name: string
+        age: number
+        address: string
+    }
+
+    type UserPartialName = PartialByKeys<User, 'name'> // { name?:string; age:number; address:string }
+    ```
+    ```ts
+    type PartialByKeys<T , K = keyof T> = Omit<Omit<T, K & keyof T> & Partial<T>, never>;
+    ```
+51. 实现RequiredByKeys
+    ```ts
+    type RequiredByKeys<T , K = keyof T> = Omit<T & Required<Pick<T,K & keyof T>>, never>
+    ```
+52. 实现Mutable（可变的）
+    ```ts
+    type Mutable<T> = {
+      -readonly [P in keyof T]: T[P]
+    }
+    ```
+53. 实现OmitByType
+    ```ts
+    type OmitByType<T, U> = {
+      [P in keyof T as T[P] extends U ? never : P]: T[P]
+    }
+    ```
+54. 实现ObjectEntries  
+    例如：
+    ```ts
+    interface Model {
+      name: string;
+      age: number;
+      locations: string[] | null;
+    }
+    type modelEntries = ObjectEntries<Model> // ['name', string] | ['age', number] | ['locations', string[] | null];
+    ```
+    ```ts
+    type ObjectEntries<T, U extends keyof T = keyof T> = U extends unknown 
+    ? [U, T[U] extends (infer F | undefined) 
+    ? F extends never 
+        ? undefined
+        : F
+    : T[U] ] 
+    : never
+    ```
+55. 实现shift
+    ```ts
+    type Shift<T> = T extends [infer _F, ...infer R] ? R : never
+    ```
+56. 实现TupleToNestedObject  
+    例如：
+    ```ts
+    type a = TupleToNestedObject<['a'], string> // {a: string}
+    type b = TupleToNestedObject<['a', 'b'], number> // {a: {b: number}}
+    type c = TupleToNestedObject<[], boolean> // boolean. if the tuple is empty, just return the U type
+    ```
+    ```ts
+    type TupleToNestedObject<T extends string[], U> = T extends [infer F, ...infer R]
+    ? {
+      [P in F as P extends string ? P : never]: R extends string[] ? TupleToNestedObject<R,U> : never
+    }
+    : U
+    ```
+57. 实现Reverse
+    ```ts
+    type Reverse<T extends unknown[], Result extends unknown[] = []> = T extends [infer F, ...infer R]
+    ? Reverse<R, [F,...Result]>
+    : Result
+    ```
+58. 实现Lodash中的_.flip
+    例如：
+    ```ts
+    type Flipped = FlipArguments<(arg0: string, arg1: number, arg2: boolean) => void> 
+    // (arg0: boolean, arg1: number, arg2: string) => void
+    ```
+    ```ts
+    type Reverse<T extends any[], Result extends any[] = []> = T extends [ infer F, ...infer R] 
+    ? Reverse<R, [F, ...Result]> 
+    : Result
+
+    type FlipArguments<T extends (...arg:any[])=> any> = (...args:Reverse<Parameters<T>>) => ReturnType<T>
+    ```
+59. 🥇🥇🥇 实现Fibonacci Sequence
+    例如：
+    ```ts
+    type Result1 = Fibonacci<3> // 2
+    type Result2 = Fibonacci<8> // 21
+    ```
+    ```ts
+    type Fibonacci<T extends number, L extends any[] = [any], V extends any[] = [any], P extends any[] = []> = 
+    L extends { length: T } 
+    ? V['length'] 
+    : Fibonacci<T, [any, ...L], [...V, ...P], V> // L用于计数，V存储当前值，P存储上一次的值
+    // 当T为3 时
+    // 第一次 L为[any]，V为[any]，P为[]
+    // 第二次 L为[any, any]，V为[any]，P为[any]
+    // 第三次 L为[any,any,any]，V为[any,any]，P为[any]{length:3}
+    // 第四次 L为[any,any,any,any]，V为[any,any,any]，P为[any,any]
+    // 第五次 L为[any,any,any,any,any]，V为[any,any,any,any,any],P为[any,any,any]
+    // ......
+    ```
+    参见:   
+    * [用ts类型系统实现斐波那契数列](https://juejin.cn/post/6957276082437537828)
+    * [https://github.com/type-challenges/type-challenges/issues/6346](https://github.com/type-challenges/type-challenges/issues/6346)
+60. 🥇🥇🥇 实现Flatten任意指定深度的数组  
+    例如：
+    ```ts
+    type a = FlattenDepth<[1, 2, [3, 4], [[[5]]]], 2> // [1, 2, 3, 4, [5]]. flattern 2 times
+    type b = FlattenDepth<[1, 2, [3, 4], [[[5]]]]> // [1, 2, 3, 4, [[5]]]. Depth defaults to be 1
+    ```
+    ```ts
+    type FlattenDepth<T extends unknown[], N extends number =1,Result extends unknown[]=[]>=Result['length'] extends N
+    ? T
+    : T extends [infer F,...infer R]
+        ? F extends unknown[]
+            ? [...FlattenDepth<F, N, [any,...Result]>, ...FlattenDepth<R, N, Result>]
+            : [F,...FlattenDepth<R,N,Result>]
+        : T
+    // 或者
+    type FlattenByCount<T extends unknown[] ,N extends number = 1, Count extends unknown[]=[],U = T[number] > = U extends unknown[] 
+    ? Count['length'] extends N
+    ? U
+    : FlattenByCount<U, N, [...Count, any]>
+    : U
+    type UnionToIntersectionF<U> = (U extends unknown ? (arg: (x: U) => void) => void : never) extends
+    ((arg:infer I)=>void) ? I :never    // 转成了交叉类型
+
+    type LastInUnion<T>=UnionToIntersectionF<T> extends (arg:infer R) => any ? R : never // 或者可以写成 type LastInUnion<T>=UnionToIntersectionF<T> extends {(arg:infer R) : any} ? R : never
+
+    type UnionToTuple<T, U=T>=[T] extends [never] ? [] :[...UnionToTuple<Exclude<U,LastInUnion<T>>>, LastInUnion<T>]
+
+    type FlattenDepth<T extends unknown[],N extends number =1>=UnionToTuple<FlattenByCount<T,N>>
+    ```
+    参见：
+    * [Union To Tuple](https://juejin.cn/post/6987596107866079269)
+    * [[TypeScript奇技淫巧] union to tuple](https://zhuanlan.zhihu.com/p/58704376)
+61. 🥇🥇 实现BEM  
+    例如：**btn__price--warning**
+    ```ts
+    type BEM<B extends string, E extends string[], M extends string[]> = B extends ''
+    ? ''
+    : `${B}${E['length'] extends 0 ? '' : `__${E[number]}`}${M['length'] extends 0 ? '' : `--${M[number]}`}`
+    ```
+    注意：  
+    * T[number]会自动迭代数组
+      ```ts
+      type D=`foo_${['A', 'B', 'C'][number]}`   // type D = "foo_A" | "foo_B" | "foo_C"
+      ```
+62. 实现InorderTraversal（二叉树中的中序遍历）
+    ```ts
+    interface TreeNode {
+      val: number;
+      left: TreeNode | null;
+      right: TreeNode | null;
+    }
+
+    type InorderTraversal<T extends TreeNode | null, S extends NonNullable<T> = NonNullable<T>> = [T] extends [S]
+    ? [...InorderTraversal<S['left']>, S['val'], ...InorderTraversal<S['right']>]
+    : []
+    ```
+    参见：
+    * [二叉树遍历（前序、中序、后序）](https://juejin.cn/post/6990631860611383310)
+63. 实现Flip  
+    例如：
+    ```ts
+    Flip<{ a: "x", b: "y", c: "z" }>; // {x: 'a', y: 'b', z: 'c'}
+    Flip<{ a: 1, b: 2, c: 3 }>; // {1: 'a', 2: 'b', 3: 'c'}
+    flip<{ a: false, b: true }>; // {false: 'a', true: 'b'}
+    ```
+    ```ts
+    type Flip<T extends Record<string | number , string | number | boolean>, U extends keyof T = keyof T> = 
+    {
+      [P in U as T[P] extends string | number | boolean ? `${T[P]}` : never]: P
+    }
+    // 或者简写
+    type Flip<T extends Record<string | number , string | number | boolean>, U extends keyof T = keyof T> = 
+    {
+      [P in U as `${T[P]}`]: P
+    }
     ```

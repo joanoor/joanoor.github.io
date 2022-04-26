@@ -99,7 +99,30 @@ TypeScript允许遍历某种类型的属性，并通过keyof操作符提取其�
    type Bool = Dog extends Animal ? 'yes' : 'no';
    ```
 备注：  
+1. ```ts
+   type Equal<X, Y> = X extends Y ? true : false;
+   // 表示 类型X可以分配给类型Y，而不是说类型X是类型Y的子集
+   ```
+2. extends {}
+   ```ts
+   type FoldImplicit<S> = S
+   type FoldObject<S extends {}> = S
+
+   type T1 = FoldImplicit<"foo"> // ✅ 
+   type T2 = FoldImplicit<undefined> // ✅
+   type T3 = FoldObject<"foo"> // ✅
+   type T4 = FoldObject<undefined> // ❌ - `undefined` or `null` not in `{}` (strictNullChecks)
+   // compiles with `strictNullChecks` disabled 
+   ```
+   详见：[significance-of-extends](https://stackoverflow.com/questions/62552915/significance-of-extends)  
+   extends {}，除了undefined和null之外的其他任何值都会满足这个约束
+   extends unknown，包含undefined和null的任何值都满足此约束
+
+## T[number]
+例如
 ```ts
-type Equal<X, Y> = X extends Y ? true : false;
-// 表示 类型X可以分配给类型Y，而不是说类型X是类型Y的子集
+type YY<T extends readonly any[]> = T[number]
+type DD=YY<[0, '', false, [], {}, {}]> // type DD = false | {} | "" | 0 | [] 联合类型会自动合并相同的类型，这里两个{}，合并成一个{}
 ```
+
+详见：[What's the T[number] mean in typescript code?](https://stackoverflow.com/questions/59187941/whats-the-tnumber-mean-in-typescript-code)

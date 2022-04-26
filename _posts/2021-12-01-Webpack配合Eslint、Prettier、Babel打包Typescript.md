@@ -14,7 +14,7 @@ tags: [前端, Webpack]
 4. ```npm i -D eslint```  // 安装Eslint
 5. ```npm i -D prettier eslint-config-prettier eslint-plugin-prettier```
 6. ```$ npx eslint --init```  // 初始化.eslintrc.yml（这一步中可以选择使用typesciprt，这样会下载@typescript-eslint/eslint-plugin，@typescript-eslint/parser这两个依赖，如果框架选择vue，还会多下载eslint-plugin-vue这个依赖）
-7. ```npm i -D label-loader @babel/core @babel/preset-env @babel/preset-typescript``` 
+7. ```npm i -D babel-loader @babel/core @babel/preset-env @babel/preset-typescript``` 
 8.  ```npm i -D fork-ts-checker-webpack-plugin``` // 使用fork-ts-checker-webpack-plugin ，开辟一个单独的线程去执行类型检查的任务，这样就不会影响 webpack 重新编译的速度
 
 ### 附录（配置文件内容

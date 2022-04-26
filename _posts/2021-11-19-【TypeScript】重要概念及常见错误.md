@@ -65,6 +65,7 @@ let value4:boolean = value33   // ok
 🐔 但这种代码最后会编译成js代码，供他人使用。这个时候，类型信息就丢失了。所以 ts 编译器会自动根据 .ts 中的信息，生成对外的 .d.ts 文件，和生成的 js 文件搭配使用。其中，js 文件是给运行引擎用的，而 .d.ts 文件是给 IDE（智能编辑器）写代码时参考用的。  
 🐔 另一种情况是，你的代码不是用 ts 写的，只是希望最后给别人用时能有类型信息作为辅助，那么这种情况下的 .d.ts 文件就需要你手写了。  
 <br />
+
 ### 4. **.d.ts中的declare和在.ts中的declare的区别** 
 
 🐟 通过declare声明的类型或者变量或者模块，只要在tsconfig.json的include包含的文件范围内，都可以直接引用而不用通过import或者import type相应的变量或者类型。  
@@ -167,6 +168,22 @@ function dispatch(type:any,arg?:any){ }
 * [Typescript 理解Conditional Types](https://juejin.cn/post/7002494139153530917)
 * [TypeScript 参数简化实战（进阶知识点conditional types，中高级必会）](http://www.noobyard.com/article/p-xzqyvrhe-hk.html)
 * [Conditional types in TypeScript](https://artsy.github.io/blog/2018/11/21/conditional-types-in-typescript/)
+
+
+### 7. 交叉类型和联合类型
+首先抛弃数学集合中的交集和并集概念，它们不是一个概念。
+* 联合类型：产生一个包含所有类型的选择集类型
+* 交叉类型：产生一个包含所有属性的新类型
+  * 如果两个类型交叉，且这个两个类型存在相同名称属性，但是一个optional 一个required，则最终结果是required
+  例如:
+  ```ts
+  type S = ('name' | 'age') & ('name' | 'age' | 'address') // 结果应该是 "name" | "age"
+  // 相当于做分解运算 type S="name" & "name" | "name" & "age" | "name" & "address" | "age" & "name" | "age" & "age" | "age" & "address" ===> type S="name" | never | never | never | age |never = "name" | "age"
+  ```
+
+参考：
+* [TypeScript 交叉类型](http://www.semlinker.com/ts-intersection-types/)
+* [理解Ts联合类型和交叉类型](https://juejin.cn/post/6930628304491773966#heading-0)
 
 ## **常见错误？**
 1、Non-relative paths are not allowed when 'baseUrl' is not set. Did you forget a leading './'?  
