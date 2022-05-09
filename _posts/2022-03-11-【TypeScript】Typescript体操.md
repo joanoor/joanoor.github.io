@@ -320,3 +320,4 @@ ts 实现对象属性过滤：通过构造对象、取属性名、取值的语�
 附录：  
 1、[来做操吧！深入 TypeScript 高级类型和类型体操](https://www.shouxicto.com/article/2818.html)  
 2、[接近天花板的TS类型体操，看懂你就能玩转TS了](https://juejin.cn/post/7061556434692997156)
+3、[怎么把 TypeScript 类型系统玩到极致 - TS 类型体操](https://zhuanlan.zhihu.com/p/464558626)

@@ -4,6 +4,7 @@ title: TypeScript类型体操改进链式调用
 categories: 类型体操
 tags: [类型体操, TypeScript]
 ---
+
 ### 代码
 ```ts
 interface Knead {
@@ -22,7 +23,7 @@ interface Fish {
   fish(): Add
 }
 
-// 因为this实在Add声明时确定的，如果想让this在方法被调用时被确定，目前只能通过泛型的方式
+// 因为this是在Add声明时确定的，如果想让this在方法被调用时被确定，目前只能通过泛型的方式
 interface Add {
   addSoup<T>(this: T): Omit<T, 'addSoup'>
   addSeasoning<T>(this: T): Omit<T, 'addSeasoning'>

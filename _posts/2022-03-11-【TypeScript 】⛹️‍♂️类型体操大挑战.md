@@ -626,3 +626,203 @@ type Sub<T extends number, P extends number> = {
       [P in U as `${T[P]}`]: P
     }
     ```
+64. 实现GreaterThan  
+    implement a type GreaterThan<T, U> like T > U  
+    例如：
+    ```ts
+    GreaterThan<2, 1> //should be true
+    GreaterThan<1, 1> //should be false
+    GreaterThan<10, 100> //should be false
+    GreaterThan<111, 11> //should be true
+    ```
+    实现
+    ```ts
+    type Range<T extends number, P extends any[] = []> = P['length'] extends T
+    ? P
+    : Range<T, [...P, any]>
+
+    type Pop<T extends any[]> = T extends [...infer F, infer L]
+    ? F['length']
+    : never
+
+    type GreaterThan<T extends number, U extends number, N = 0> = T extends N
+    ? false
+    : U extends N
+        ? true
+        : Pop<Range<T>> extends N
+        ? false
+        : Pop<Range<U>> extends N
+            ? true
+            : GreaterThan<Pop<Range<T>>, Pop<Range<U>>, N>
+    
+    // 或者
+    type GreaterThan<
+    T extends number,
+    U extends number,
+    R extends any[] = []
+        > = T extends R['length']
+        ? false
+        : U extends R['length']
+            ? true
+            : GreaterThan<T, U, [...R, any]>
+    ```
+65. 实现Zip  
+    Zip<T, U>，其中T和U都是Tuple，例如：
+    ```ts
+    type exp = Zip<[1, 2], [true, false]> // expected to be [[1, true], [2, false]]
+    ```
+    实现：
+    ```ts
+    type Zip<
+    T extends any[],
+    U extends any[],
+    Result extends any[] = []
+    > = T['length'] extends 0
+    ? T
+    : U['length'] extends 0
+        ? T
+        : Result['length'] extends T['length']
+        ? Result
+        : Result['length'] extends U['length']
+            ? Result
+            : Zip<T, U, [...Result, [T[Result['length']], U[Result['length']]]]>
+
+    // 或者
+    type Zip<T extends any[],U extends any[]> = 
+    T extends [infer TF,...infer TR]?
+        U extends [infer UF,...infer UR]?
+        [[TF,UF],...Zip<TR,UR>]
+        :[]
+    :[]
+    ```
+66. 🥇 实现IsTuple
+    ```ts
+    type IsTuple<T extends {length:number}> = T extends readonly [infer _F, ...infer _R]
+    ? true
+    : T['length'] extends 0
+        ? true
+        : false
+
+    // 或者
+    type IsTuple<T> = 
+    T extends readonly any[]
+    ? number extends T['length']
+        ? false 
+        : true
+    : false
+    ```
+67. 🥇 实现chunk（类似lodash中的chunk）
+    ```ts
+    type Chunk<T extends any[], N extends number, Part extends any[] = []> = T extends [infer F,...infer R]
+    ? Part['length'] extends N
+        ? [Part, ...Chunk<T, N>]
+        : Chunk<R, N , [...Part, F]>
+    : Part extends [] 
+        ? Part 
+        : [Part]
+    ```
+68. 🥇🥇🥇 实现fill  
+    例如
+    ```ts
+    type exp = Fill<[1, 2, 3], 0> // expected to be [0, 0, 0]
+    ```
+    代码实现
+    ```ts
+    type Fill<
+    T extends any[],
+    N extends any,
+    Start extends number = 0,
+    End extends number = T["length"],
+    Result extends any[] = []
+    > = T extends [infer F, ...infer R]
+    ? Result["length"] extends Start
+        ? Start extends End
+            ? [...Result, ...T]
+            : Fill<R, N, [...Result, N]["length"] & number, End, [...Result, N]>    // NOTE: &写法很棒
+        : Fill<R, N, Start, End, [...Result, F]>
+    : Result;
+    ```
+69. 实现trimRight
+    ```ts
+    type TrimRight<S extends string> =  S extends `${infer R}${' ' | '\n' | '\t'}` ? TrimRight<R> : S
+    ```
+70. 实现Without  
+    Lodash.without
+    例如：
+    ```ts
+    type Res = Without<[1, 2], 1>; // expected to be [2]
+    type Res1 = Without<[1, 2, 4, 1, 5], [1, 2]>; // expected to be [4, 5]
+    type Res2 = Without<[2, 3, 2, 3, 2, 3, 2, 3], [2, 3]>; // expected to be []
+    ```
+    实现： 
+    ```ts
+    type Expand<T extends number | number[]>= T extends number[]
+    ? T[number]
+    : T
+    type Without<T extends unknown[], U extends number | number[],Result extends unknown[]= []> = T extends [infer F, ...infer R]
+    ? F extends Expand<U>
+        ? Without<R, U, [...Result]>
+        : Without<R, U, [...Result, F]>
+    : [...Result,...T]
+    ```
+71. 实现Math.trunc（截取操作，对小数会去掉小数部分和小数点）
+    ```ts
+    type Trunc<T extends number | string> = `${T}` extends `${infer F}.${infer R}`
+    ? F
+    : `${T}`
+    ```
+72. 实现indexOf  
+    例如：
+    ```ts
+    type Res = IndexOf<[1, 2, 3], 2>; // expected to be 1
+    type Res1 = IndexOf<[2,6, 3,8,4,1,7, 3,9], 3>; // expected to be 2
+    type Res2 = IndexOf<[0, 0, 0], 2>; // expected to be -1
+    ```
+    代码实现：
+    ```ts
+    type IndexOf<T extends (string | number)[], U extends string | number, Index extends any[] = []> =Index['length'] extends T['length']
+    ? -1
+    : `${T[Index['length']]}` extends `${U}`
+    ? `${U}` extends `${T[Index['length']]}`
+        ? Equal<U, any> extends true
+        ? Equal<T[Index['length']], any> extends true
+            ? Index['length']
+            : IndexOf<T,U,[...Index,any]>
+        : Index['length']
+        : IndexOf<T,U,[...Index,any]>
+    : IndexOf<T, U, [...Index,any]>
+    // 这里的Equal是@type-challenges/utils里的工具泛型，可以判断是否是any
+    ```
+73. 实现Join  
+    例如：
+    ```ts
+    type Res = Join<["a", "p", "p", "l", "e"], "-">; // expected to be 'a-p-p-l-e'
+    type Res1 = Join<["Hello", "World"], " ">; // expected to be 'Hello World'
+    type Res2 = Join<["2", "2", "2"], 1>; // expected to be '21212'
+    type Res3 = Join<["o"], "u">; // expected to be 'o'
+    ```
+    代码实现：
+    ```ts
+    type Join<T extends any[], U extends string | number> = T extends [infer F, ...infer R]
+    ? R['length'] extends 0
+        ? F
+        : `${F & string}${U}${Join<R,U> & string}`      // NOTE: &写法再次出现
+    : ''
+    ```
+74. 实现LastIndexOf  
+    从右向左开始查找
+    ```ts
+    type Pop<T extends any[]> = T extends [...infer F, infer L] ? F :never
+    type LastIndexOf<T extends (string | number)[], U extends string | number, Index extends any[] = T> = Index['length'] extends 0
+        ? -1
+        : `${T[Pop<Index>['length']]}` extends `${U}`
+        ? `${U}` extends `${T[Pop<Index>['length']]}`
+            ? Equal<U, any> extends true
+            ? Equal<T[Pop<Index>['length']], any> extends true
+                ? Pop<Index>['length']
+                : LastIndexOf<T,U,Pop<Index>>
+            : Pop<Index>['length']
+            : LastIndexOf<T,U,Pop<Index>>
+        : LastIndexOf<T, U, Pop<Index>>
+    // 这里的Equal是@type-challenges/utils里的工具泛型，可以判断是否是any
+    ```

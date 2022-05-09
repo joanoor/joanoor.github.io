@@ -14,10 +14,10 @@ tags: [前端, typescript]
 - 字面量       // let b: 10 | 8  表示 b只能赋值成10或者8
 - any
 - 联合类型
-- unknow      // top type（任何类型都是它的subtype）
-- any         // 既属于top type，又属于bottom type（任何类型都是它的subtype，同时它页是任何类型的subtype，导致any放弃了类型检查）
+- unknow      // <span style="color:red">top type（任何类型都是它的subtype）</span>
+- any         // <span style="color:red">既属于top type，又属于bottom type（任何类型都是它的subtype，同时它页是任何类型的subtype，导致any放弃了类型检查）</span>
 - volid
-- never       // never是所有类型的子类型
+- never       // <span style="color:red">never是所有类型的子类型</span>
 
 ## 父子类型  
 ```ts
@@ -37,12 +37,15 @@ Animal是Dog的父类型，Dog是Animal的子类型，子类型的属性比父�
 记住一个特征，子类型比父类型更加<strong style="color:red">具体</strong>，这点很关键
 
 ## 可赋值性 assignable  
-一句话：***we can always substitute a type with its subtype***
+一句话：***we can always substitute(代替) a type with its subtype***
 <br />
 <br />
+<br />
+
 # 😄 重要概念
 
 ### 1. type和interface的区别
+参见：[Interfaces vs Types in TypeScript](https://blog.logrocket.com/types-vs-interfaces-in-typescript/)
 
 ### 2. any和unknow类型
 > any类型相当于关闭了类型检查，对一个变量，执行任何操作（调用，取值等等）都不会提示报错
@@ -88,7 +91,7 @@ let value4:boolean = value33   // ok
   2. 在.d.ts文件里如果顶级声明不用export的话，declare和直接写type、interface效果是一样的，在其他地方都可以直接引用
 <br />
 
-### 5. **import 和 /// <reference path|type='' /> 的区别是什么？**  
+### 5. **import 和 /// <reference path | type='' /> 的区别是什么？**  
 
 🐷 主要还是历史遗留问题，三斜线指令出现的时候 ES6 还没出来。三斜线指令不会将一个全局文件变成模块文件，而 import 会。如果你需要一个在一个全局文件 b 里用另一个文件 c 里的变量，就可以用三斜线指令，因为用 import 会把 b 变成一个模块文件。  
 
@@ -115,25 +118,23 @@ type case1<T = never> = never extends T ? true : false
 type case2<T = never> = T extends never ? true : false   
 type b = case1                                        // true
 type c = case2                                        // never 
-
 ```
 你可能会问为什么type c为never？这是因为：
 > 众所周知，never在typescript中指不存在的类型。而Union type代表一个集合，never的意思就是一个空的集合。在Distributive Conditional Types的场景下，extends能够表示遍历集合的含义。而遍历一个空的集合never，自然得到的结果也是空never（其实就是得到不存在的类型）  
-> 那么有观众就要问了，为什么never也是Union type呢？never其实是|运算的幺元。所有的类型都可以理解为Union type。
-> 比如，type U<T> = T | never，我们会得到U的类型是T，通俗理解就是你拥有了一个类型T，此时还拥有一个不存在的东西never，那么最终你手上有的还只是T。所以T和T | never是恒等的。
+> 那么有观众就要问了，为什么never也是Union type呢？never其实是|运算的幺元。所有的类型都可以理解为Union type。  
+> 比如，type U\<T> = T | never，我们会得到U的类型是T，通俗理解就是你拥有了一个类型T，此时还拥有一个不存在的东西never，那么最终你手上有的还只是T。所以T和T | never是恒等的。
 
 例如：
 ```ts
 type Demo<T> = T extends any ? true : false
 type ZZ = Demo<never> // never
-```
-那么如何去解决这个问题呢？就是不触发Distributive Conditional Types既可，最简单的方法就是不要让T是naked type。如下的代码，只要我们把T包裹住即可。
-```ts
+// 那么如何去解决这个问题呢？
+// 就是不触发Distributive Conditional Types既可，最简单的方法就是不要让T是naked type。如下的代码，只要我们把T包裹住即可。
 type case2<T = never> = [T] extends [never] ? true : false 
 type c = case2 // true
 ```
 
-示例：
+Distributive conditional types的一个完整例子：
 ```ts
 type Action={
   type:'INIT' 
@@ -180,10 +181,23 @@ function dispatch(type:any,arg?:any){ }
   type S = ('name' | 'age') & ('name' | 'age' | 'address') // 结果应该是 "name" | "age"
   // 相当于做分解运算 type S="name" & "name" | "name" & "age" | "name" & "address" | "age" & "name" | "age" & "age" | "age" & "address" ===> type S="name" | never | never | never | age |never = "name" | "age"
   ```
-
 参考：
 * [TypeScript 交叉类型](http://www.semlinker.com/ts-intersection-types/)
 * [理解Ts联合类型和交叉类型](https://juejin.cn/post/6930628304491773966#heading-0)
+
+
+### 8. Index Signatures（索引签名）
+The idea of the index signatures is to type objects of unknown structure when you only know the key and value types.  
+在只知道键和值类型的情况下对结构位置的对象进行类型划分  
+```ts
+type User = {
+  [x:string]: number
+}
+```
+参见：😈😈😈 [Index Signatures in TypeScript](https://dmitripavlutin.com/typescript-index-signatures/) 
+
+### 9. 索引签名 VS Record工具类型
+参见：😈😈😈 [TypeScript 索引签名 vs Record 工具类型](https://juejin.cn/post/7087971365449367565)
 
 ## **常见错误？**
 1、Non-relative paths are not allowed when 'baseUrl' is not set. Did you forget a leading './'?  
