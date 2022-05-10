@@ -17,7 +17,7 @@ Reflection的三个特点：
 2. Self-Modification (自修改)
 3. Intercession (代理)
 
-![difference between introspection and reflection](../assets//images/introspectionandreflection.png)
+![difference between introspection and reflection](../assets//images/introspectionandreflection.png)  
 参见：
 * [What is the difference between introspection and reflection?](https://stackoverflow.com/questions/25198271/what-is-the-difference-between-introspection-and-reflection)
 * [编程语言的自省与反射](https://cifer76.github.io/posts/introspection-reflection/?msclkid=9d2d78f6cdb411ec8b7e8d74c1959bbd)
