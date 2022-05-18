@@ -509,13 +509,13 @@ type Sub<T extends number, P extends number> = {
     }
     : U
     ```
-57. 实现Reverse
+57. [实现Reverse](https://github.com/type-challenges/type-challenges/blob/main/questions/03196-medium-flip-arguments/README.md)
     ```ts
     type Reverse<T extends unknown[], Result extends unknown[] = []> = T extends [infer F, ...infer R]
     ? Reverse<R, [F,...Result]>
     : Result
     ```
-58. 实现Lodash中的_.flip
+58. [FlipArguments 实现Lodash中的_.flip](https://github.com/type-challenges/type-challenges/blob/main/questions/03196-medium-flip-arguments/README.md)
     例如：
     ```ts
     type Flipped = FlipArguments<(arg0: string, arg1: number, arg2: boolean) => void> 
@@ -528,29 +528,7 @@ type Sub<T extends number, P extends number> = {
 
     type FlipArguments<T extends (...arg:any[])=> any> = (...args:Reverse<Parameters<T>>) => ReturnType<T>
     ```
-59. 🥇🥇🥇 实现Fibonacci Sequence
-    例如：
-    ```ts
-    type Result1 = Fibonacci<3> // 2
-    type Result2 = Fibonacci<8> // 21
-    ```
-    ```ts
-    type Fibonacci<T extends number, L extends any[] = [any], V extends any[] = [any], P extends any[] = []> = 
-    L extends { length: T } 
-    ? V['length'] 
-    : Fibonacci<T, [any, ...L], [...V, ...P], V> // L用于计数，V存储当前值，P存储上一次的值
-    // 当T为3 时
-    // 第一次 L为[any]，V为[any]，P为[]
-    // 第二次 L为[any, any]，V为[any]，P为[any]
-    // 第三次 L为[any,any,any]，V为[any,any]，P为[any]{length:3}
-    // 第四次 L为[any,any,any,any]，V为[any,any,any]，P为[any,any]
-    // 第五次 L为[any,any,any,any,any]，V为[any,any,any,any,any],P为[any,any,any]
-    // ......
-    ```
-    参见:   
-    * [用ts类型系统实现斐波那契数列](https://juejin.cn/post/6957276082437537828)
-    * [https://github.com/type-challenges/type-challenges/issues/6346](https://github.com/type-challenges/type-challenges/issues/6346)
-60. 🥇🥇🥇 实现Flatten任意指定深度的数组  
+59. 🥇🥇🥇 [FlattenDepth任意指定深度的数组](https://github.com/type-challenges/type-challenges/blob/main/questions/03243-medium-flattendepth/README.md)  
     例如：
     ```ts
     type a = FlattenDepth<[1, 2, [3, 4], [[[5]]]], 2> // [1, 2, 3, 4, [5]]. flattern 2 times
@@ -582,7 +560,7 @@ type Sub<T extends number, P extends number> = {
     参见：
     * [Union To Tuple](https://juejin.cn/post/6987596107866079269)
     * [[TypeScript奇技淫巧] union to tuple](https://zhuanlan.zhihu.com/p/58704376)
-61. 🥇🥇 实现BEM  
+60. 🥇🥇 [实现BEM](https://github.com/type-challenges/type-challenges/blob/main/questions/03326-medium-bem-style-string/README.md)  
     例如：**btn__price--warning**
     ```ts
     type BEM<B extends string, E extends string[], M extends string[]> = B extends ''
@@ -594,7 +572,7 @@ type Sub<T extends number, P extends number> = {
       ```ts
       type D=`foo_${['A', 'B', 'C'][number]}`   // type D = "foo_A" | "foo_B" | "foo_C"
       ```
-62. 实现InorderTraversal（二叉树中的中序遍历）
+61. [实现InorderTraversal（二叉树中的中序遍历）](https://github.com/type-challenges/type-challenges/blob/main/questions/03376-medium-inordertraversal/README.md)
     ```ts
     interface TreeNode {
       val: number;
@@ -608,7 +586,7 @@ type Sub<T extends number, P extends number> = {
     ```
     参见：
     * [二叉树遍历（前序、中序、后序）](https://juejin.cn/post/6990631860611383310)
-63. 实现Flip  
+62. [实现Flip](https://github.com/type-challenges/type-challenges/blob/main/questions/04179-medium-flip/README.md)  
     例如：
     ```ts
     Flip<{ a: "x", b: "y", c: "z" }>; // {x: 'a', y: 'b', z: 'c'}
@@ -626,7 +604,34 @@ type Sub<T extends number, P extends number> = {
       [P in U as `${T[P]}`]: P
     }
     ```
-64. 实现GreaterThan  
+63. 🥇🥇🥇 [实现Fibonacci Sequence](https://github.com/type-challenges/type-challenges/blob/main/questions/04182-medium-fibonacci-sequence/README.md)  
+    例如：
+    ```ts
+    type Result1 = Fibonacci<3> // 2
+    type Result2 = Fibonacci<8> // 21
+    ```
+    ```ts
+    type Fibonacci<T extends number, L extends any[] = [any], V extends any[] = [any], P extends any[] = []> = 
+    L extends { length: T } 
+    ? V['length'] 
+    : Fibonacci<T, [any, ...L], [...V, ...P], V> // L用于计数，V存储当前值，P存储上一次的值
+    // 当T为3 时
+    // 第一次 L为[any]，V为[any]，P为[]
+    // 第二次 L为[any, any]，V为[any]，P为[any]
+    // 第三次 L为[any,any,any]，V为[any,any]，P为[any]{length:3}
+    // 第四次 L为[any,any,any,any]，V为[any,any,any]，P为[any,any]
+    // 第五次 L为[any,any,any,any,any]，V为[any,any,any,any,any],P为[any,any,any]
+    // ......
+    ```
+    参见:   
+    * [用ts类型系统实现斐波那契数列](https://juejin.cn/post/6957276082437537828)
+    * [https://github.com/type-challenges/type-challenges/issues/6346](https://github.com/type-challenges/type-challenges/issues/6346)
+64. [实现AllCombinations](https://github.com/type-challenges/type-challenges/blob/main/questions/04260-medium-nomiwase/README.md)
+    ```ts
+
+    ```
+
+65. [实现GreaterThan](https://github.com/type-challenges/type-challenges/blob/main/questions/04425-medium-greater-than/README.md)  
     implement a type GreaterThan<T, U> like T > U  
     例如：
     ```ts
@@ -666,7 +671,7 @@ type Sub<T extends number, P extends number> = {
             ? true
             : GreaterThan<T, U, [...R, any]>
     ```
-65. 实现Zip  
+66. [实现Zip](https://github.com/type-challenges/type-challenges/blob/main/questions/04471-medium-zip/README.md)  
     Zip<T, U>，其中T和U都是Tuple，例如：
     ```ts
     type exp = Zip<[1, 2], [true, false]> // expected to be [[1, true], [2, false]]
@@ -695,7 +700,7 @@ type Sub<T extends number, P extends number> = {
         :[]
     :[]
     ```
-66. 🥇 实现IsTuple
+67. 🥇 [实现IsTuple](https://github.com/type-challenges/type-challenges/blob/main/questions/04484-medium-istuple/README.md)
     ```ts
     type IsTuple<T extends {length:number}> = T extends readonly [infer _F, ...infer _R]
     ? true
@@ -711,7 +716,7 @@ type Sub<T extends number, P extends number> = {
         : true
     : false
     ```
-67. 🥇 实现chunk（类似lodash中的chunk）
+68. 🥇 [实现chunk（类似lodash中的chunk）](https://github.com/type-challenges/type-challenges/blob/main/questions/04499-medium-chunk/README.md)
     ```ts
     type Chunk<T extends any[], N extends number, Part extends any[] = []> = T extends [infer F,...infer R]
     ? Part['length'] extends N
@@ -721,7 +726,7 @@ type Sub<T extends number, P extends number> = {
         ? Part 
         : [Part]
     ```
-68. 🥇🥇🥇 实现fill  
+69. 🥇🥇🥇 [实现fill](https://github.com/type-challenges/type-challenges/blob/main/questions/04518-medium-fill/README.md)  
     例如
     ```ts
     type exp = Fill<[1, 2, 3], 0> // expected to be [0, 0, 0]
@@ -742,11 +747,11 @@ type Sub<T extends number, P extends number> = {
         : Fill<R, N, Start, End, [...Result, F]>
     : Result;
     ```
-69. 实现trimRight
+70. [trimRight](https://github.com/type-challenges/type-challenges/blob/main/questions/04803-medium-trim-right/README.md)
     ```ts
     type TrimRight<S extends string> =  S extends `${infer R}${' ' | '\n' | '\t'}` ? TrimRight<R> : S
     ```
-70. 实现Without  
+71. [Without](https://github.com/type-challenges/type-challenges/blob/main/questions/05117-medium-without/README.md)  
     Lodash.without
     例如：
     ```ts
@@ -765,13 +770,13 @@ type Sub<T extends number, P extends number> = {
         : Without<R, U, [...Result, F]>
     : [...Result,...T]
     ```
-71. 实现Math.trunc（截取操作，对小数会去掉小数部分和小数点）
+72. [Math.trunc（截取操作，对小数会去掉小数部分和小数点）](https://github.com/type-challenges/type-challenges/blob/main/questions/05140-medium-trunc/README.md)
     ```ts
     type Trunc<T extends number | string> = `${T}` extends `${infer F}.${infer R}`
     ? F
     : `${T}`
     ```
-72. 实现indexOf  
+73. [indexOf](https://github.com/type-challenges/type-challenges/blob/main/questions/05153-medium-indexof/README.md)  
     例如：
     ```ts
     type Res = IndexOf<[1, 2, 3], 2>; // expected to be 1
@@ -793,7 +798,7 @@ type Sub<T extends number, P extends number> = {
     : IndexOf<T, U, [...Index,any]>
     // 这里的Equal是@type-challenges/utils里的工具泛型，可以判断是否是any
     ```
-73. 实现Join  
+74. [Join](https://github.com/type-challenges/type-challenges/blob/main/questions/05310-medium-join/README.md)  
     例如：
     ```ts
     type Res = Join<["a", "p", "p", "l", "e"], "-">; // expected to be 'a-p-p-l-e'
@@ -809,7 +814,7 @@ type Sub<T extends number, P extends number> = {
         : `${F & string}${U}${Join<R,U> & string}`      // NOTE: &写法再次出现
     : ''
     ```
-74. 实现LastIndexOf  
+75. [LastIndexOf](https://github.com/type-challenges/type-challenges/blob/main/questions/05317-medium-lastindexof/README.md)  
     从右向左开始查找
     ```ts
     type Pop<T extends any[]> = T extends [...infer F, infer L] ? F :never
@@ -826,3 +831,62 @@ type Sub<T extends number, P extends number> = {
         : LastIndexOf<T, U, Pop<Index>>
     // 这里的Equal是@type-challenges/utils里的工具泛型，可以判断是否是any
     ```
+76. [实现lodash中的unique操作](https://github.com/type-challenges/type-challenges/blob/main/questions/05360-medium-unique/README.md)
+    ```ts
+    type IndexOf<T extends any[], U extends any, Index extends any[] = []> =Index['length'] extends T['length']
+    ? -1
+    : Equal<T[Index['length']], U> extends true
+        ? Index['length']
+        : IndexOf<T,U,[...Index,any]>
+
+    type Unique<T extends any[], Result extends any[]=[]> = T extends [infer F , ...infer R]
+    ? IndexOf<Result, F> extends -1
+        ? Unique<R, [...Result, F]>
+        : Unique<R, [...Result]>
+    : Result
+    ```
+77. 🥈🥈🥈 [实现MapTypes](https://github.com/type-challenges/type-challenges/blob/main/questions/05821-medium-maptypes/README.md)  
+    ```ts
+    type MapTypes<T extends Record<string,any>, R extends Record<'mapFrom' | 'mapTo', any>, U = R> = {
+                    [K in keyof T]: Equal<T[K], R['mapFrom']> extends true 
+                                    ? R['mapTo']
+                                    : T[K] extends R['mapFrom'] 
+                                        ? U extends R 
+                                        ? Equal<T[K], U['mapFrom']> extends true
+                                            ? U['mapTo']
+                                            : never
+                                        : never
+                                        : T[K]
+                    }
+    // 或者
+    type MapTypes<T, R extends {mapFrom:any,mapTo:any}> = {
+        [key in keyof T]: [R extends {mapFrom:T[key]} ? R['mapTo']: never] extends [never]
+        ? T[key]
+        : R extends {mapFrom:T[key]} ? R['mapTo'] : never
+    }
+    ```
+78. [实现Construct Tuple](https://github.com/type-challenges/type-challenges/blob/main/questions/07544-medium-construct-tuple/README.md)
+    ```ts
+    type ConstructTuple<L extends number, Result extends unknown[] = []> = Result['length'] extends L
+    ? Result
+    : ConstructTuple<L, [...Result, unknown]>
+    ```
+79. [实现Number Range](https://github.com/type-challenges/type-challenges/blob/main/questions/08640-medium-number-range/README.md)
+    ```ts
+    type ConstructTuple<
+    L extends number, 
+    Result extends number[] = []
+    > = Result['length'] extends L
+        ? [...Result,1]
+        : ConstructTuple<L, [...Result, 1]>
+
+    type NumberRange<
+    L extends number, 
+    H extends number, 
+    Temp extends number[] = ConstructTuple<L>, 
+    Result extends unknown[] = [L]
+    > = L extends H
+        ? Result[number]
+        : NumberRange<Temp['length'], H ,[...Temp, 1],[...Result,Temp['length']]>
+    ```
+    

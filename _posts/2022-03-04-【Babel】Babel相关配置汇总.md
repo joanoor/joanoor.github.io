@@ -81,7 +81,7 @@ babel.config.json
 执行命令 ```npx babel index.js -o bundle.js``` 进行转义
 #### **情况一：当babel配置文件只存在@babel/preset-env，且没有做任何选项配置时**
 .babelrc文件内容如下：
-```
+```json
 {
   "presets": [
     [
@@ -92,7 +92,7 @@ babel.config.json
 }
 ```
 package.json文件内容如下：
-```
+```json
 "devDependencies": {
   "@babel/cli": "^7.17.6",
   "@babel/core": "^7.17.5",
@@ -101,7 +101,7 @@ package.json文件内容如下：
 "dependencies": {}
 ```
 将要被转义的index.js文件内容如下：
-```
+```js
 const sym = Symbol();
 const promise = Promise.resolve();
 const check = arr.includes("yeah!");
@@ -115,7 +115,7 @@ const john = new Person()
 console.log(john)
 ```
 生成的bundle.js文件内容如下：
-```
+```js
 "use strict";
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -152,7 +152,7 @@ console.log(john);
 #### **情况二：当babel配置文件只有@babel/preset-env，且通过配置选项来实现pollyfill**（分为两种情况）  
 **一、当useBuiltIns设置为entry时：需要手动在入口文件中引入core-js/stable和regenerator-runtime/runtime**  
 .babelrc文件内容如下：
-```
+```json
 {
   "presets": [
     [
@@ -174,7 +174,7 @@ console.log(john);
 }
 ```
 package.json文件内容如下：
-```
+```json
 "devDependencies": {
   "@babel/cli": "^7.17.6",
   "@babel/core": "^7.17.5",
@@ -186,7 +186,7 @@ package.json文件内容如下：
 }
 ```
 将要被转义的index.js文件内容如下：
-```
+```js
 import "core-js/stable" // 手动引入
 import "regenerator-runtime/runtime"  // 手动引入
 const sym = Symbol();
@@ -202,7 +202,7 @@ const john = new Person()
 console.log(john)
 ```
 生成的bundle.js文件内容如下：
-```
+```js
 "use strict";
 
 require("core-js/modules/es.symbol.js");
@@ -277,7 +277,7 @@ console.log(john);
 
 **二、当useBuiltIns设置为usage时：不需要需要手动引入core-js/stable和regenerator-runtime/runtime**  
 .babelrc文件内容如下：
-```
+```json
 {
   "presets": [
     [
@@ -299,7 +299,7 @@ console.log(john);
 }
 ```
 package.json文件内容如下：
-```
+```json
 "devDependencies": {
   "@babel/cli": "^7.17.6",
   "@babel/core": "^7.17.5",
@@ -309,7 +309,7 @@ package.json文件内容如下：
 "dependencies": {}
 ```
 将要被转义的index.js文件内容如下：
-```
+```js
 const sym = Symbol();
 const promise = Promise.resolve();
 const check = arr.includes("yeah!");
@@ -323,7 +323,7 @@ const john = new Person()
 console.log(john)
 ```
 生成的bundle.js文件内容如下：
-```
+```js
 "use strict";
 
 require("core-js/modules/es.object.define-property.js");
@@ -394,7 +394,7 @@ console.log(john);
 | 2 | npm install --save @babel/runtime-corejs2 |
 | 3 | npm install --save @babel/runtime-corejs3 |
 .babelrc文件内容如下：
-```
+```json
 {
   "presets": [
     [
@@ -415,20 +415,19 @@ console.log(john);
 }
 ```
 package.json文件内容如下：
-```
+```json
 "devDependencies": {
   "@babel/cli": "^7.17.6",
   "@babel/core": "^7.17.5",
   "@babel/plugin-transform-runtime": "^7.17.0",
   "@babel/preset-env": "^7.16.11",
-  "core-js": "^3.21.1"
 },
 "dependencies": {
   "@babel/runtime-corejs3": "^7.17.2"
 }
 ```
 将要被转义的index.js文件内容如下：
-```
+```js
 const sym = Symbol();
 const promise = Promise.resolve();
 const check = arr.includes("yeah!");
@@ -442,7 +441,7 @@ const john = new Person()
 console.log(john)
 ```
 生成的bundle.js文件内容如下：
-```
+```js
 "use strict";
 
 var _interopRequireDefault = require("@babel/runtime-corejs3/helpers/interopRequireDefault");
