@@ -99,76 +99,77 @@ type Sub<T extends number, P extends number> = {
 
 
 
-1. Pick
+1. [实现Pick](https://github.com/type-challenges/type-challenges/blob/main/questions/00004-easy-pick/README.md)
    ```ts
     type MyPick<T, K extends keyof T> = {
       [P in K]:T[P]
     }
    ```
-2. Readonly
+2. [实现Readonly](https://github.com/type-challenges/type-challenges/blob/main/questions/00007-easy-readonly/README.md)
    ```ts
    type MyReadonly<T> = {
      readonly [P in keyof T]:T[P]
    }
    ```
-3. TupleToObject  将元组类型转换成对象
+3. [实现TupleToObject](https://github.com/type-challenges/type-challenges/blob/main/questions/00011-easy-tuple-to-object/README.md)
    ```ts
    type TupleToObject<T extends readonly any[]> = {
      [P in T[number]]:P
    }
    ```
-4. 第一个元素——返回数组的第一个元素的类型
+4. [实现First](https://github.com/type-challenges/type-challenges/blob/main/questions/00014-easy-first/README.md)
    ```ts
    type First<T extends any[]> = T extends [] ? never : T[0]
    ```
-5. 创建一个通用的Length，接受一个readonly的数组，返回此数组的长度
+5. [实现Length of Tuple](https://github.com/type-challenges/type-challenges/blob/main/questions/00018-easy-tuple-length/README.md)
    ```ts
    type Length<T extends readonly any[]> =T['length']
    ```
-6. 实现Exclude
+6. [实现Exclude](https://github.com/type-challenges/type-challenges/blob/main/questions/00043-easy-exclude/README.md)
    ```ts
    type Exlude<T,U> = T extends U ? never : T
    ```
-7. 实现Awaited
+7. [实现Awaited](https://github.com/type-challenges/type-challenges/blob/main/questions/00189-easy-awaited/README.md)
    ```ts
    type MyAwaited<T> = T extends Promise<infer R> ? MyAwaited<R> : T
    ```
-8. 实现If
+8. [实现If](https://github.com/type-challenges/type-challenges/blob/main/questions/00268-easy-if/README.md)
    ```ts
    type If<C extends boolean, T, F> = C extends true ? T : F
    ```
-9. 实现Concat
+9. [实现Concat](https://github.com/type-challenges/type-challenges/blob/main/questions/00533-easy-concat/README.md)
    ```ts
    type Concat<T extends any[], U extends any[]> = [...T,...U]
    ```
-10. 实现Includes
+10. [实现Includes](https://github.com/type-challenges/type-challenges/blob/main/questions/00898-easy-includes/README.md)
     ```ts
     type Includes<T extends readonly any[], U> = T extends [infer F,...infer R] ? (Equal<F,U> extends true ? true : Includes<R,U>) : false
     ```
-11. 实现push
+11. [实现push](https://github.com/type-challenges/type-challenges/blob/main/questions/03057-easy-push/README.md)
     ```ts
     type Push<T extends any[], U> = [...T, U] 
     ```
-12. 实现UnShift
+12. [实现UnShift](https://github.com/type-challenges/type-challenges/blob/main/questions/03060-easy-unshift/README.md)
     ```ts
     type Unshift<T extends any[], U> = [U,...T]
     ```
-13. 实现Parameters
+13. [实现Parameters](https://github.com/type-challenges/type-challenges/blob/main/questions/03312-easy-parameters/README.md)
     ```ts
     type MyParameters<T extends (...args: any[]) => any> = T extends (...args:infer R)=>any ? R :T
     ```
-14. 实现ReturnType
+14. [实现ReturnType](https://github.com/type-challenges/type-challenges/blob/main/questions/00002-medium-return-type/README.md)
     ```ts
     type MyReturnType<T> = T extends (...args: any[])=>infer R ? R :never
     ```
-15. 实现Omit
+15. [实现Omit](https://github.com/type-challenges/type-challenges/blob/main/questions/00008-medium-readonly-2/README.md)
     ```ts
     type MyOmit<T, K extends keyof T> = {
       [P in Exclude<keyof T, K>]:T[P]
     }
     // type MyOmit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
     ```
-16. 实现Readonly2（实现一个通用`MyReadonly2<T, K>`，它带有两种类型的参数`T`和`K`。`K`指定应设置为Readonly的`T`的属性集。如果未提供`K`，则应使所有属性都变为只读，就像普通的`Readonly<T>`一样）
+16. [实现Readonly2](https://github.com/type-challenges/type-challenges/blob/main/questions/00008-medium-readonly-2/README.md)  
+    实现一个通用`MyReadonly2<T, K>`，它带有两种类型的参数`T`和`K`。`K`指定应设置为Readonly的`T`的属性集。如果未提供`K`，则应使所有属性都变为只读，就像普通的`Readonly<T>`一样
     ```ts
     type MyReadonly2<T, K extends keyof T = keyof T> = {
       [P in Exclude<keyof T,K>] : T[P]
@@ -177,20 +178,20 @@ type Sub<T extends number, P extends number> = {
     }
     // type MyReadonly2<T, K extends keyof T=keyof T> = Omit<T, K> & Readonly<Pick<T, K>>
     ```
-17. 实现深度Readonly
+17. [实现深度Readonly](https://github.com/type-challenges/type-challenges/blob/main/questions/00009-medium-deep-readonly/README.md)
     ```ts
     T extends Record<any,any> ? {
     readonly [P in keyof T]: DeepReadonly<T[P]>
     } : Readonly<T>
     // [key in keyof T]: T[key] extends Record<string, unknown> ? DeepReadonly<T[key]> : T[key]
     ```
-18. 实现返回数组元素所有值的合集
+18. [实现Tuple to Union](https://github.com/type-challenges/type-challenges/blob/main/questions/00010-medium-tuple-to-union/README.md)
     ```ts
     type TupleToUnion<T extends unknown[]> = T extends Array<infer E>? E :never 
     // type TupleToUnion<T extends unknown[]> = T[number]
     // type TupleToUnion<T extends unknown[]> = T extends [infer F,...infer Rest]? F | TupleToUnion<Rest> :never 
     ```
-19. 🥇 实现可选链构造器
+19. 🥇 [实现Chainable Options](https://github.com/type-challenges/type-challenges/blob/main/questions/00012-medium-chainable-options/README.md)
     ```ts
     type Chainable<T = {}> = {
       option<K extends string,V>(key: K, value: V): Chainable<T & {
@@ -217,24 +218,26 @@ type Sub<T extends number, P extends number> = {
       }
     }
     ```
-20. 获取数组类型的最后一个元素的类型
+20. [实现Last of Array](https://github.com/type-challenges/type-challenges/blob/main/questions/00015-medium-last/README.md)
     ```ts
     type Last<T extends any[]> = T extends [infer F,...infer R]? R['length'] extends 0? F : Last<R> :never
     // type Last<T extends any[]> = [any, ...T][T['length']]
     // type Last<T extends any[]> = T extends [...unknown[], ...infer L] ? L : never
     ```
-21. 实现通用Pop<T>，它接受一个数组T并返回一个没有最后一个元素的数组
+21. [实现通用Pop<T>](https://github.com/type-challenges/type-challenges/blob/main/questions/00016-medium-pop/README.md)  
+    它接受一个数组T并返回一个没有最后一个元素的数组
     ```ts
     type Pop<T extends any[]> = T extends [...infer F, infer L] ? F :never
     // type Pop<T extends any[]> = T extends [...infer F, unknown] ? F :never
     ```
-22. 🥇 实现函数promiseAll，它接收PromiseLike对象数组，返回值应为Promise<T>，其中T是解析的结果数组
+22. 🥇 [实现函数promiseAll](https://github.com/type-challenges/type-challenges/blob/main/questions/00020-medium-promise-all/README.md)  
+    它接收PromiseLike对象数组，返回值应为Promise<T>，其中T是解析的结果数组
     ```ts
     declare function promiseAll<T extends unknown[]>(value: readonly [...T]): Promise<{[K in keyof T]: T[K] extends Promise<infer R> ? R : T[K]}>
     // ts中数组不仅可以通过any[]或者Array<number>这些方式，还可以
     // type ARR={[propName:number]: any} 采用这种方式
     ```
-23. 实现：
+23. [实现Type Lookup](https://github.com/type-challenges/type-challenges/blob/main/questions/00062-medium-type-lookup/README.md)  
     例如：通过在联合Dog | Cat中搜索公共type字段来获取响应的类型，```LookUp<Dog | Cat, 'cat'>``` 获得Dog
     ```ts
     interface Cat {
@@ -251,81 +254,79 @@ type Sub<T extends number, P extends number> = {
     type LookUp<U, T extends string> = U extends {type:string}? U['type'] extends T ? U : never : never
     // type LookUp<U extends {type:string},T extends string> = U extends {type:`${T}`} ? U :never
     ```
-24. 实现TrimLeft
+24. [实现TrimLeft](https://github.com/type-challenges/type-challenges/blob/main/questions/00106-medium-trimleft/README.md)
     ```ts
     type TrimLeft<S extends string> = S extends `${' ' | '\n' | '\t'}${infer R}` ? TrimLeft<R> : S
     ```
-25. 🥇🥇 实现Trim
+25. 🥇🥇 [实现Trim](https://github.com/type-challenges/type-challenges/blob/main/questions/00108-medium-trim/README.md)
     ```ts
     type Trim<T extends string> = T extends `${' ' | '\n' | '\t'}${infer Rest}` | `${infer Rest}${' ' | '\n' | '\t'}` ? Trim<Rest> : T;
     ```
-26. 🥇 实现Capitalize
+26. 🥇 [实现Capitalize](https://github.com/type-challenges/type-challenges/blob/main/questions/00110-medium-capitalize/README.md)
     ```ts
     type MyCapitalize<S extends string> = S extends `${infer F}${infer Rest}` ? `${Uppercase<F>}${Rest}` : S
     ```
-27. 🥇 实现replace
+27. 🥇 [实现replace](https://github.com/type-challenges/type-challenges/blob/main/questions/00116-medium-replace/README.md)
     ```ts
     type Replace<S extends string, From extends string, To extends string> = S extends `${infer U}${From}${infer V}` ? From extends '' ? `${U}${From}${V}` : `${U}${To}${V}` : S;
     ```
-28. 🥇🥇 实现replaceAll
+28. 🥇🥇 [实现replaceAll](https://github.com/type-challenges/type-challenges/blob/main/questions/00119-medium-replaceall/README.md)
     ```ts
     type ReplaceAll<S extends string, From extends string, To extends string> = From extends '' ? S : S extends `${infer F}${From}${infer R}` ? `${F}${To}${ReplaceAll<R,From,To>}`:S
     ```
-29. 实现泛型 `AppendArgument<Fn, A>`  
+29. [实现Append Argument](https://github.com/type-challenges/type-challenges/blob/main/questions/00191-medium-append-argument/README.md)  
     对于给定的函数类型 `Fn`，以及一个任意类型 `A`，返回一个新的函数 `G`。`G` 拥有 `Fn` 的所有参数并在末尾追加类型为 `A` 的参数
     ```ts
     type AppendArgument<Fn extends Function, A> = Fn extends (...args:infer T) => infer R? (...args:[...T,A]) => R : never
     ```
-30. 🥇🥇🥇 实现排列组合
-    实现Permutation类型，将联合类型转换成所有可能排列的数组组成的联合类型
-    ```type perm = Permutation<'A' | 'B' | 'C'>; // ['A', 'B', 'C'] | ['A', 'C', 'B'] | ['B', 'A', 'C'] | ['B', 'C', 'A'] | ['C', 'A', 'B'] | ['C', 'B', 'A']```
+30. 🥇🥇🥇 [实现排列组合](https://github.com/type-challenges/type-challenges/blob/main/questions/00296-medium-permutation/README.md)
     ```ts
     type Permutation<T, U = T> = [T] extends [never] ? [] : T extends U ? [T, ...Permutation<Exclude<U, T>>] : never
+
+    type perm = Permutation<'A' | 'B' | 'C'>; // ['A', 'B', 'C'] | ['A', 'C', 'B'] | ['B', 'A', 'C'] | ['B', 'C', 'A'] | ['C', 'A', 'B'] | ['C', 'B', 'A']
     ```
-31. 实现Length of String
+31. [实现Length of String](https://github.com/type-challenges/type-challenges/blob/main/questions/00298-medium-length-of-string/README.md)
     ```ts
     type LengthOfString<S extends string,T extends string[]=[]>=S extends '' ? T['length'] : S extends `${infer F}${infer R}` ? LengthOfString<R,[...T,F]> : never
     ```
-32. 实现Flatten
+32. [实现Flatten](https://github.com/type-challenges/type-challenges/blob/main/questions/00459-medium-flatten/README.md)
     ```ts
     type Flatten<S extends unknown, Result extends unknown[] = []> = S extends [] ? Result : S extends [infer F,...infer R] ? Flatten<R, [...Result, ...Flatten<F>]> : [S,...Result]
     ```
-33. 实现Append to object  
-    假设 type Test={id : '1'}  
-    期望 type Result = AppendToObject<Test, 'value', 4> // expected to be { id: '1', value: 4 }
+33. [实现Append to object](https://github.com/type-challenges/type-challenges/blob/main/questions/00527-medium-append-to-object/README.md)  
     ```ts
     type AppendToObject<T extends Record<string, unknown>, U extends string, V extends unknown> = {
       [K in (keyof T | U)]: K extends U ? V: T[K]
     }
+
+
+    type Test={id : '1'}
+    type Result = AppendToObject<Test, 'value', 4>  // expected to be { id: '1', value: 4 }
     ```
-34. 🥇🥇 实现Absolute  
-    A type that take string, number or bigint. The output should be a positive number string
+34. 🥇🥇 [实现Absolute](https://github.com/type-challenges/type-challenges/blob/main/questions/00529-medium-absolute/README.md)  
     ```ts
     type Absolute<T extends number | string | bigint> = `${T}` extends `-${infer R}` ? R : `${T}`
     ```
-35. 实现merge  
+35. [实现StringToUnion](https://github.com/type-challenges/type-challenges/blob/main/questions/00531-medium-string-to-union/README.md)
+    
+36. [实现merge](https://github.com/type-challenges/type-challenges/blob/main/questions/00599-medium-merge/README.md)  
     Merge two types into a new type. Keys of the second type overrides keys of the first type
     ```ts
     type Merge<F extends Record<string,unknown>, S extends Record<string,unknown>> = {
       [K in keyof F | keyof S]: K extends Extract<keyof F,keyof S> ? S[K] : K extends keyof F ? F[K]: K extends keyof S? S[K]:never
     }
     ```
-36. 实现CamelCase
-    ```ts
-    type CamelCase<S extends string> = S extends `${infer F}-${infer R}` ? (R extends Capitalize<R> ? `${F}-${CamelCase<R>}` : `${F}${CamelCase<Capitalize<R>>}`) : S
-    ```
-37. 实现KebabCase
+37. [实现KebabCase](https://github.com/type-challenges/type-challenges/blob/main/questions/00612-medium-kebabcase/README.md)
     ```ts
     type KebabCase<S> = S extends `${infer F}${infer L}` ? L extends Uncapitalize<L> ? `${Lowercase<F>}${KebabCase<L>}` : `${Lowercase<F>}-${KebabCase<L>}` : S
     ```
-38. 实现Diff  
-    找出两个对象类型的不同之处
+38. [实现Diff](https://github.com/type-challenges/type-challenges/blob/main/questions/00645-medium-diff/README.md)  
     ```ts
     type Diff<O extends Record<string,unknown>, O1 extends Record<string,unknown>> = {
         [K in (Exclude<keyof O,keyof O1> | Exclude<keyof O1, keyof O>)]: K extends keyof O ? O[K]:K extends keyof O1?O1[K]:never
     }
     ```
-39. 🥇🥇 实现AnyOf
+39. 🥇🥇 [实现AnyOf](https://github.com/type-challenges/type-challenges/blob/main/questions/00949-medium-anyof/README.md)
     ```ts
     type AnyOf<T extends readonly any[], C= 0 | "" | false | [] | {[propName:string]:never}> = T extends [infer F , ...infer R] 
     ? F extends C ? AnyOf<R> 
@@ -333,16 +334,15 @@ type Sub<T extends number, P extends number> = {
     // 或者
     type AnyOf<T extends readonly any[], C= 0 | "" | false | [] | {[propName:string]:never}> = T[number] extends C ? false : true
     ```
-40. 实现IsNever
+40. [实现IsNever](https://github.com/type-challenges/type-challenges/blob/main/questions/01042-medium-isnever/README.md)
     ```ts
     type IsNever<T> = [T] extends [never] ? true : false 
     ```
-41. 实现IsUnion
+41. [实现IsUnion](https://github.com/type-challenges/type-challenges/blob/main/questions/01097-medium-isunion/README.md)
     ```ts
     type IsUnion<T,U = T> = T extends U ? [U] extends [T] ? false : true : never 
     ```
-42. 实现ReplaceKey  
-    Implement a type ReplaceKeys, that replace keys in union types, if some type has not this key, just skip replacing, A type takes three arguments. 
+42. [实现ReplaceKey](https://github.com/type-challenges/type-challenges/blob/main/questions/01130-medium-replacekeys/README.md)  
     ```ts
     type ReplaceKeys<U, T, Y extends Record<string,unknown>, S = U> = U extends S
     ? Extract<keyof U, T> extends never 
@@ -352,16 +352,7 @@ type Sub<T extends number, P extends number> = {
     }
     : never
     ```
-43. 🥇🥇🥇 实现Remove Index Signature  
-    例如：
-    ```ts
-    type Foo = {
-    [key: string]: any;
-    foo(): void;
-    }
-
-    type A = RemoveIndexSignature<Foo>  // expected { foo(): void }
-    ```
+43. 🥇🥇🥇 [实现Remove Index Signature](https://github.com/type-challenges/type-challenges/blob/main/questions/01367-medium-remove-index-signature/README.md)  
     ```ts
     type RemoveIndexSignature<T> = {
         [K in keyof T as K extends `${infer R}` ? R : never]: T[K]
@@ -370,10 +361,26 @@ type Sub<T extends number, P extends number> = {
     type RemoveIndexSignature<T extends Record<string, any>> = {
         [K in keyof T as [T[K]] extends [undefined] ? never : K]: T[K]
     }
+
+
+    type Foo = {
+    [key: string]: any;
+    foo(): void;
+    }
+
+    type A = RemoveIndexSignature<Foo>  // expected { foo(): void }
     ```
-44. 🥇🥇🥇 实现Percentage Parser  
-    实现：
+44. 🥇🥇🥇 [实现Percentage Parser](https://github.com/type-challenges/type-challenges/blob/main/questions/01978-medium-percentage-parser/README.md)  
     ```ts
+    type PercentageParser<S extends string> = S extends `${infer F}${infer R}` ? F extends '+' | '-'
+    ? R extends `${infer M}%`
+        ? [ F, M , '%']
+        : [ F, R, '']
+    : S extends `${infer M}%`
+        ? [ '', M, '%']
+        : [ '', R, '']
+    : ['', '', '']
+
     type PString1 = ''
     type PString2 = '+85%'
     type PString3 = '-85%'
@@ -386,40 +393,29 @@ type Sub<T extends number, P extends number> = {
     type R4 = PercentageParser<PString4>  // expected ["", "85", "%"]
     type R5 = PercentageParser<PString5>  // expected ["", "85", ""]
     ```
-    ```ts
-    type PercentageParser<S extends string> = S extends `${infer F}${infer R}` ? F extends '+' | '-'
-    ? R extends `${infer M}%`
-        ? [ F, M , '%']
-        : [ F, R, '']
-    : S extends `${infer M}%`
-        ? [ '', M, '%']
-        : [ '', R, '']
-    : ['', '', '']
-    ```
-45. 实现DropChar  
-    例如:
-    ```ts
-    type Butterfly = DropChar<' b u t t e r f l y ! ', ' '> // 'butterfly!'
-    ```
+45. [实现DropChar](https://github.com/type-challenges/type-challenges/blob/main/questions/02070-medium-drop-char/README.md)  
     ```ts
     type DropChar<S extends string, C extends string> = S extends `${infer T}${C}${infer R}` ? `${T}${DropChar<R,C>}` : S
+
+    type Butterfly = DropChar<' b u t t e r f l y ! ', ' '> // 'butterfly!'
     ```
-46. 实现MinusOne  
-    例如：  
-    ```ts
-    type Zero = MinusOne<1> // 0
-    type FiftyFour = MinusOne<55> // 54
-    ```
+46. [实现MinusOne](https://github.com/type-challenges/type-challenges/blob/main/questions/02257-medium-minusone/README.md)  
     ```ts
     type MinusOne<T extends number,Result extends number[] = []> = T extends Result['length'] 
     ? Result extends [infer _F,...infer R] 
         ? R['length'] 
         : 0 
     : MinusOne<T, [...Result, T]>
+
+    type Zero = MinusOne<1> // 0
+    type FiftyFour = MinusOne<55> // 54
     ```
-47. 实现PickByType  
-    想要实现如下效果：  
+47. [实现PickByType](https://github.com/type-challenges/type-challenges/blob/main/questions/02595-medium-pickbytype/README.md)  
     ```ts
+    type PickByType<T, U> = {
+        [K in keyof T as U extends T[K] ? K :never]: T[K]
+    }
+
     type OnlyBoolean = PickByType<{
         name: string
         count: number
@@ -427,24 +423,20 @@ type Sub<T extends number, P extends number> = {
         isEnable: boolean
     }, boolean> // { isReadonly: boolean; isEnable: boolean; }
     ```
-    ```ts
-    type PickByType<T, U> = {
-        [K in keyof T as U extends T[K] ? K :never]: T[K]
-    }
-    ```
-48. 实现StartsWith
+48. [实现StartsWith](https://github.com/type-challenges/type-challenges/blob/main/questions/02688-medium-startswith/README.md)
     ```ts
     type StartsWith<T extends string, U extends string> = T extends `${U}${infer _R}`
     ? true
     : false
     ```
-49. 实现EndsWith
+49. [实现EndsWith](https://github.com/type-challenges/type-challenges/blob/main/questions/02693-medium-endswith/README.md)
     ```ts
     type EndsWith<T extends string, U extends string> = T extends `${infer _F}${U}`? true : false
     ```
-50. 🥇🥇 实现PartialByKeys  
-    例如：
+50. 🥇🥇 [实现PartialByKeys](https://github.com/type-challenges/type-challenges/blob/main/questions/02757-medium-partialbykeys/README.md)  
     ```ts
+    type PartialByKeys<T , K = keyof T> = Omit<Omit<T, K & keyof T> & Partial<T>, never>
+
     interface User {
         name: string
         age: number
@@ -453,35 +445,23 @@ type Sub<T extends number, P extends number> = {
 
     type UserPartialName = PartialByKeys<User, 'name'> // { name?:string; age:number; address:string }
     ```
-    ```ts
-    type PartialByKeys<T , K = keyof T> = Omit<Omit<T, K & keyof T> & Partial<T>, never>;
-    ```
-51. 实现RequiredByKeys
+51. [实现RequiredByKeys](https://github.com/type-challenges/type-challenges/blob/main/questions/02759-medium-requiredbykeys/README.md)
     ```ts
     type RequiredByKeys<T , K = keyof T> = Omit<T & Required<Pick<T,K & keyof T>>, never>
     ```
-52. 实现Mutable（可变的）
+52. [实现Mutable（可变的）](https://github.com/type-challenges/type-challenges/blob/main/questions/02852-medium-omitbytype/README.md)
     ```ts
     type Mutable<T> = {
       -readonly [P in keyof T]: T[P]
     }
     ```
-53. 实现OmitByType
+53. [实现OmitByType](https://github.com/type-challenges/type-challenges/blob/main/questions/02852-medium-omitbytype/README.md)
     ```ts
     type OmitByType<T, U> = {
       [P in keyof T as T[P] extends U ? never : P]: T[P]
     }
     ```
-54. 实现ObjectEntries  
-    例如：
-    ```ts
-    interface Model {
-      name: string;
-      age: number;
-      locations: string[] | null;
-    }
-    type modelEntries = ObjectEntries<Model> // ['name', string] | ['age', number] | ['locations', string[] | null];
-    ```
+54. [实现ObjectEntries](https://github.com/type-challenges/type-challenges/blob/main/questions/02946-medium-objectentries/README.md)  
     ```ts
     type ObjectEntries<T, U extends keyof T = keyof T> = U extends unknown 
     ? [U, T[U] extends (infer F | undefined) 
@@ -490,24 +470,29 @@ type Sub<T extends number, P extends number> = {
         : F
     : T[U] ] 
     : never
+
+    interface Model {
+      name: string;
+      age: number;
+      locations: string[] | null;
+    }
+    type modelEntries = ObjectEntries<Model> // ['name', string] | ['age', number] | ['locations', string[] | null];
     ```
-55. 实现shift
+55. [实现shift](https://github.com/type-challenges/type-challenges/blob/main/questions/03062-medium-shift/README.md)
     ```ts
     type Shift<T> = T extends [infer _F, ...infer R] ? R : never
     ```
-56. 实现TupleToNestedObject  
-    例如：
-    ```ts
-    type a = TupleToNestedObject<['a'], string> // {a: string}
-    type b = TupleToNestedObject<['a', 'b'], number> // {a: {b: number}}
-    type c = TupleToNestedObject<[], boolean> // boolean. if the tuple is empty, just return the U type
-    ```
+56. [实现TupleToNestedObject](https://github.com/type-challenges/type-challenges/blob/main/questions/03188-medium-tuple-to-nested-object/README.md)  
     ```ts
     type TupleToNestedObject<T extends string[], U> = T extends [infer F, ...infer R]
     ? {
       [P in F as P extends string ? P : never]: R extends string[] ? TupleToNestedObject<R,U> : never
     }
     : U
+
+    type a = TupleToNestedObject<['a'], string> // {a: string}
+    type b = TupleToNestedObject<['a', 'b'], number> // {a: {b: number}}
+    type c = TupleToNestedObject<[], boolean> // boolean. if the tuple is empty, just return the U type
     ```
 57. [实现Reverse](https://github.com/type-challenges/type-challenges/blob/main/questions/03196-medium-flip-arguments/README.md)
     ```ts
@@ -626,9 +611,24 @@ type Sub<T extends number, P extends number> = {
     参见:   
     * [用ts类型系统实现斐波那契数列](https://juejin.cn/post/6957276082437537828)
     * [https://github.com/type-challenges/type-challenges/issues/6346](https://github.com/type-challenges/type-challenges/issues/6346)
-64. [实现AllCombinations](https://github.com/type-challenges/type-challenges/blob/main/questions/04260-medium-nomiwase/README.md)
+64. 🥇🥇🥇 [实现AllCombinations](https://github.com/type-challenges/type-challenges/blob/main/questions/04260-medium-nomiwase/README.md)
     ```ts
+    type String2Union<S extends string> =
+    S extends `${infer C}${infer REST}`
+    ? C | String2Union<REST>
+    : never;
 
+    type AllCombinations<
+        STR extends string,
+        S extends string = String2Union<STR>,
+    > = [S] extends [never]
+        ? ''
+        : '' | {[K in S]: `${K}${AllCombinations<never, Exclude<S, K>>}`}[S]
+        
+    type AllCombinationsTest = AllCombinations<'abcdefgh'>;
+    // -> type AllCombinationsTest = "" | "abcdefgh" | "a" | "bcdefgh" | "b" | "cdefgh" | "c" | "defgh" | "d" | "efgh" | "e" |
+    //    "fgh" | "f" | "gh" | "g" | "h" | "hg" | "fg" | "fh" | "fhg" | "hf" | "gf" | "gfh" | "ghf" | "hfg" | ... 109575 more
+    //    ... | "hgfedcba"
     ```
 
 65. [实现GreaterThan](https://github.com/type-challenges/type-challenges/blob/main/questions/04425-medium-greater-than/README.md)  
@@ -747,11 +747,11 @@ type Sub<T extends number, P extends number> = {
         : Fill<R, N, Start, End, [...Result, F]>
     : Result;
     ```
-70. [trimRight](https://github.com/type-challenges/type-challenges/blob/main/questions/04803-medium-trim-right/README.md)
+70. [实现trimRight](https://github.com/type-challenges/type-challenges/blob/main/questions/04803-medium-trim-right/README.md)
     ```ts
     type TrimRight<S extends string> =  S extends `${infer R}${' ' | '\n' | '\t'}` ? TrimRight<R> : S
     ```
-71. [Without](https://github.com/type-challenges/type-challenges/blob/main/questions/05117-medium-without/README.md)  
+71. [实现Without](https://github.com/type-challenges/type-challenges/blob/main/questions/05117-medium-without/README.md)  
     Lodash.without
     例如：
     ```ts
@@ -770,13 +770,14 @@ type Sub<T extends number, P extends number> = {
         : Without<R, U, [...Result, F]>
     : [...Result,...T]
     ```
-72. [Math.trunc（截取操作，对小数会去掉小数部分和小数点）](https://github.com/type-challenges/type-challenges/blob/main/questions/05140-medium-trunc/README.md)
+72. [实现Math.trunc](https://github.com/type-challenges/type-challenges/blob/main/questions/05140-medium-trunc/README.md)  
+    ---截取操作，对小数会去掉小数部分和小数点
     ```ts
     type Trunc<T extends number | string> = `${T}` extends `${infer F}.${infer R}`
     ? F
     : `${T}`
     ```
-73. [indexOf](https://github.com/type-challenges/type-challenges/blob/main/questions/05153-medium-indexof/README.md)  
+73. [实现indexOf](https://github.com/type-challenges/type-challenges/blob/main/questions/05153-medium-indexof/README.md)  
     例如：
     ```ts
     type Res = IndexOf<[1, 2, 3], 2>; // expected to be 1
@@ -798,7 +799,7 @@ type Sub<T extends number, P extends number> = {
     : IndexOf<T, U, [...Index,any]>
     // 这里的Equal是@type-challenges/utils里的工具泛型，可以判断是否是any
     ```
-74. [Join](https://github.com/type-challenges/type-challenges/blob/main/questions/05310-medium-join/README.md)  
+74. [实现Join](https://github.com/type-challenges/type-challenges/blob/main/questions/05310-medium-join/README.md)  
     例如：
     ```ts
     type Res = Join<["a", "p", "p", "l", "e"], "-">; // expected to be 'a-p-p-l-e'
@@ -814,7 +815,7 @@ type Sub<T extends number, P extends number> = {
         : `${F & string}${U}${Join<R,U> & string}`      // NOTE: &写法再次出现
     : ''
     ```
-75. [LastIndexOf](https://github.com/type-challenges/type-challenges/blob/main/questions/05317-medium-lastindexof/README.md)  
+75. [实现LastIndexOf](https://github.com/type-challenges/type-challenges/blob/main/questions/05317-medium-lastindexof/README.md)  
     从右向左开始查找
     ```ts
     type Pop<T extends any[]> = T extends [...infer F, infer L] ? F :never
@@ -889,4 +890,30 @@ type Sub<T extends number, P extends number> = {
         ? Result[number]
         : NumberRange<Temp['length'], H ,[...Temp, 1],[...Result,Temp['length']]>
     ```
+80. 🥈🥈🥈 [实现Combination](https://github.com/type-challenges/type-challenges/blob/main/questions/08767-medium-combination/README.md)
+    ```ts
+    type AllCombinations<
+    T extends string[],
+    S extends string = T[number]
+    > = [S] extends [never]
+    ? ''
+    : '' | {[K in S]: `${K} ${AllCombinations<never, Exclude<S, K>>}`}[S]
+
+    type TrimRight<T extends string, S=T>=T extends `${infer R}${' ' | '\n' | '\t'}` ? TrimRight<R> : S
+    type Combination<T extends string[]>=TrimRight<Exclude<AllCombinations<T>,''>>
+
+    type Result = Combination<['foo', 'bar', 'baz']>
+    // Result->foo" | "bar" | "baz" | "bar baz" | "baz bar" | "foo baz" | "foo bar" | "foo bar baz" | "foo baz bar" | "baz foo" | "bar foo" | "bar foo baz" | "bar baz foo" | "baz foo bar" | "baz bar foo"
+    ```
+81. [实现Subsequence](https://github.com/type-challenges/type-challenges/blob/main/questions/08987-medium-subsequence/README.md)
+    ```ts
+    type Subsequence<T extends any[], Result extends any[] = []> = T extends [infer F, ...infer R]
+    ? Subsequence<R,Result | [...Result, F]>
+    : Result
+    ```
     
+
+82. 实现CamelCase
+    ```ts
+    type CamelCase<S extends string> = S extends `${infer F}-${infer R}` ? (R extends Capitalize<R> ? `${F}-${CamelCase<R>}` : `${F}${CamelCase<Capitalize<R>>}`) : S
+    ```
