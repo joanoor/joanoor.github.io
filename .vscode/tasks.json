@@ -1,0 +1,12 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "plop",
+			"problemMatcher": [],
+			"label": "npm: plop",
+			"detail": "plop --plopfile ./plopfile.js"
+		}
+	]
+}
