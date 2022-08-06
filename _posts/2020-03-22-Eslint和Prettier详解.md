@@ -25,6 +25,7 @@ plugin插件主要是为eslint新增一些检查规则，举个例子：例如es
 3、[不以规矩，不能成方圆-彻底搞懂 ESLint 和 Prettier](https://juejin.cn/post/6909788084666105864)
 
 ### 附录（配置文件内容）
+普通项目配置文件内容：  
 1、 .prettierrc.yml的配置：
 ```yml
 semi: false
@@ -75,5 +76,42 @@ trim_trailing_whitespace = true
 
 [*.md]
 trim_trailing_whitespace = false
+
+```
+
+Vue3项目配置文件内容：  
+1、 .prettierrc.yml的配置：
+```yml
+semi: false
+singleQuote: true
+trailingComma: "es5"
+endOfLine: "auto"
+bracketSpacing: true
+bracketSameLine: false
+arrowParens: "avoid"
+htmlWhitespaceSensitivity: "ignore"
+```
+2、.eslintrc.yml的配置：
+```yml
+env:
+  browser: true
+  es2021: true
+  node: true
+extends:
+  - eslint:recommended
+  - plugin:vue/vue3-essential
+  - plugin:@typescript-eslint/recommended
+  - plugin:prettier/recommended
+parser: "vue-eslint-parser"
+parserOptions:
+  ecmaVersion: latest
+  parser:
+    js: "espree"
+    ts: "@typescript-eslint/parser"
+  sourceType: module
+plugins:
+  - vue
+  - "@typescript-eslint"
+rules: {}
 
 ```

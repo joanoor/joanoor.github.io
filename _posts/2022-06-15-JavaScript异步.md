@@ -12,6 +12,8 @@ tags: []
 * 网络请求
 * IO操作（比如nodejs中readFile）
 * 定时器
+  
+上面这些场景可能非常耗时，而且时间不定长，这时候这些代码就不应该同步执行了，先执行可以执行的代码，在未来的某个时间再来执行他们的handler，这就是异步。
 
 ### 进程与线程
 一个程序（program）至少包含一个进程（process），一个进程至少包含一个线程（thread）。
@@ -47,7 +49,7 @@ Javascript是单线程的，但浏览器程序多进程的
   * 只有一个JS引擎线程（单线程）
   * 与GUI渲染线程互斥，防止渲染结果不可预期
 * 事件触发线程
-  * **用来控制事件循环**（鼠标点击、setTimeout、ajax等）
+  * **用来控制事件循环**（鼠标点击等）
   * **当事件满足触发条件时，将事件放入到JS引擎所在的任务队列中**
 * 定时触发器线程
   * setInterval与setTimeout所在的线程
@@ -124,7 +126,7 @@ console.log(2);
 
 我们可以将每次执行栈执行的代码当做是一个宏任务（包括每次从事件队列中获取一个事件回调并放到执行栈中执行）， 每一个宏任务会从头到尾执行完毕，不会执行其他。
 
-JS引擎线程和GUI渲染线程是互斥的关系，浏览器为了能够使宏任务和DOM任务有序的进行，会在一个宏任务执行结果后，在下一个宏任务执行前，GUI渲染线程开始工作，对页面进行渲染。
+**JS引擎线程和GUI渲染线程是互斥的关系，浏览器为了能够使宏任务和DOM任务有序的进行，会在一个宏任务执行结果后，在下一个宏任务执行前，GUI渲染线程开始工作，对页面进行渲染。**
 
 当宏任务执行完，会在渲染前，将执行期间所产生的所有微任务都执行完
 
@@ -175,12 +177,12 @@ console.log('script end');
 
 ![事件循环](../assets/images/%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF.webp)
 
-|   | 宏任务 | 微任务 |
-| -- | -- | -- |
-|谁发起的| 宿主（Node、浏览器）| JS引擎 |
-|具体事件| 1. script (可以理解为外层同步代码)<br>2. setTimeout/setInterval<br>3. UI rendering/UI事件<br>4.postMessage，MessageChannel<br>5.setImmediate，I/O（Node.js）| 1. Promise <br>2. MutaionObserver<br>3. Object.observe（已废弃；Proxy 对象替代）<br>4. process.nextTick（Node.js） |
-|谁先运行|后运行|先运行|
-|会触发新一轮Tick吗|会|不会|
+|                    | 宏任务                                                                                                                                                       | 微任务                                                                                                             |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
+| 谁发起的           | 宿主（Node、浏览器）                                                                                                                                         | JS引擎                                                                                                             |
+| 具体事件           | 1. script (可以理解为外层同步代码)<br>2. setTimeout/setInterval<br>3. UI rendering/UI事件<br>4.postMessage，MessageChannel<br>5.setImmediate，I/O（Node.js） | 1. Promise <br>2. MutaionObserver<br>3. Object.observe（已废弃；Proxy 对象替代）<br>4. process.nextTick（Node.js） |
+| 谁先运行           | 后运行                                                                                                                                                       | 先运行                                                                                                             |
+| 会触发新一轮Tick吗 | 会                                                                                                                                                           | 不会                                                                                                               |
 
 ### 附录
 1. [JavaScript之多线程和Event Loop](https://segmentfault.com/a/1190000020889508)

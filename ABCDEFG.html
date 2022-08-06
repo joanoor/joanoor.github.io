@@ -1,35 +1,135 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-cmn-Hans">
 
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <style>
+    .square{
+      width:200px;
+      height:200px;
+      border:solid 4px;
+      text-align: center;
+      line-height: 200px;
+    }
+    .square{
+      margin-bottom:80px;
+    }
+    .square:not(:first-child){
+      margin-top:80px;
+    }
+
+    .wrap{
+      overflow: hidden;
+    }
+
+    .fourth{
+      margin-top: 80px;;
+    }
+
+    .father{
+      background-color: crimson;
+      width:200px;
+      height:200px;
+      overflow: hidden;
+    }
+
+    .child{
+      background:lightgreen;
+      width:100px;
+      height:100px;
+      margin:50px;
+    }
+
+
+    .container{
+      width:300px;
+      height:200px;
+      border:solid 1px;
+    }
+
+    p{
+      width:300px;
+
+    }
+
+    .box{
+        overflow: hidden; /* 添加BFC */
+    }
+    .left {
+        float: left;
+        width: 200px;
+        background-color: gray;
+        height: 400px;
+    }
+    .right {
+        /* margin-left: 210px; */
+        background-color: lightgray;
+        height: 200px;
+    }
+
+
+    .main{
+      height:30vh;
+      background:rebeccapurple;
+    }
+  </style>
+
 </head>
 
 <body>
-  <!-- <span style="margin-right:10px" style="display:inline-block">
-    <input type="checkbox" class="doit" id="cbox" value="checkValue"><label for="cbox">含执恢、执保</label></input>
-  </span> -->
-  <p id="timee" class="title" style="display:inline-block">
-    <span class="monthRange">2020年01月-2022年03月</span>
-  </p>
-  <!-- <div style="position:absolute;top:100px;border:solid 1px;padding:10px;">
-    <div style="float:left;width:100px;margin-right:10px;background:red;">ddddd</div>
-    <div style="float:left;width:100px;margin-right:10px;background:red;">EEEE</div>
-    <div style="float:left;width:100px;margin-right:10px;background:red;">FFFF</div>
-    <span style="float:left;width:100px;margin-right:10px;background:red;">GGGG</span>
-  </div> -->
-  <span style="display:inline-block">呵呵呵呵呵呵呵</span>
-  <p style="display:inline-block">呵呵呵呵呵呵呵</p>
-  <span style="display:inline-block">呵呵呵呵呵呵呵</span>
-  <script>
-    const $el = document.getElementById( 'cbox' )
-    $el.addEventListener( 'click', function ( res ) {
-      console.log( res.target.checked )
-    } )
-  </script>
+  
+    <!-- <div class="first square">
+      first
+    </div>
+    <div class="second square">
+      second
+    </div>
+    <div class="third square">
+      third
+    </div>
+    <div class="wrap">
+
+      <div class="fourth square">
+        fourth
+      </div>
+    </div> -->
+
+<!-- 
+    <div class="father">
+      <div class="child"></div>
+    </div> -->
+
+
+    <!-- <p class="container">
+      我是文本内容，呵呵呵呵我是文本内容，呵呵呵呵我是文本内容，呵呵呵呵我是文本内容，呵呵呵呵我是文本内容，呵呵呵呵我是文本内容，呵呵呵呵我是文本内容，呵呵呵呵我是文本内容，呵呵呵呵我是文本内容，呵呵呵呵我是文本内容，呵呵呵呵我是文本内容，呵呵呵呵我是文本内容，呵呵呵呵我是文本内容，呵呵呵呵我是文本内容，呵呵呵呵我是文本内容，呵呵呵呵我是文本内容，呵呵呵呵我是文本内容，呵呵呵呵我是文本内容，呵呵呵呵我是文本内容，呵呵呵呵我是文本内容，呵呵呵呵我是文本内容，呵呵呵呵我是文本内容，呵呵呵呵我是文本内容，呵呵呵呵我是文本内容，呵呵呵呵我是文本内容，呵呵呵呵我是文本内容，呵呵呵呵我是文本内容，呵呵呵呵我是文本内容，呵呵呵呵我是文本内容，呵呵呵呵我是文本内容，呵呵呵呵我是文本内容，呵呵呵呵我是文本内容，呵呵呵呵我是文本内容，呵呵呵呵我是文本内容，呵呵呵呵我是文本内容，呵呵呵呵我是文本内容，呵呵呵呵我是文本内容，呵呵呵呵我是文本内容，呵呵呵呵我是文本内容，呵呵呵呵
+    </p> -->
+
+
+    <!-- <div class="box">
+      <div class="left">左边</div>
+      <div class="right">右边</div>
+    </div> -->
+
+    <div class="main">ddd</div>
+    <script>
+      function factorial(n) {
+        debugger
+        if (n === 1) return 1;
+        return n * factorial(n - 1);   // NOTE:可以看到这里第一个n是上一次返回值的变量，也就是说，js需要保存
+      }
+
+      factorial(5) // 120
+      // function factorial(n, total) {
+      //   debugger
+      //   if (n === 1) return total;
+      //   return factorial(n - 1, n * total);
+      // }
+
+      // factorial(5, 1) // 120
+    </script>
 </body>
 
 </html>
