@@ -140,3 +140,5 @@ tags: []
    ```
 3. 通过在yml文件中设置env，可以向代码环境传递变量
    
+
+参见：https://pjchender.dev/devops/devops-semantic-release/#semantic-release-cli

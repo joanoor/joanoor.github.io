@@ -11,7 +11,7 @@ eslint的规则可以通过rules字段进行配置，但是不同场景、不同
 plugin插件主要是为eslint新增一些检查规则，举个例子：例如eslint-plugin-react就是对react项目做了一些定制的eslint规则。  
 如何使用插件？
 1、通过npm安装插件
-2、插件装好，只是说明eslint具备了这个能力，但是还没用出来，必须要在rules字段进行一条一条规则的配置，才能体现出这个能力
+2、插件装好，在plugins字段加载了插件，只是说明eslint具备了这个能力，但是还没用出来，要启用这个能力还需要在rules字段进行一条一条规则的配置，才能体现出这个能力
 
 很明显，plugin极大的扩展了eslint的能力，但是一条条添加规则很不方便，所以需要用到extends。extends可以看做是集成一个个配置方案的最佳实践。。可以把extends理解为集成eslint了风格或者eslint插件的最佳实践，它配置的内容实际就是一份份别人配置好的.eslintrc.js。 
 
