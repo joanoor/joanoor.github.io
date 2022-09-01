@@ -912,7 +912,6 @@ type Sub<T extends number, P extends number> = {
     : Result
     ```
     
-
 82. 实现CamelCase
     ```ts
     type CamelCase<S extends string> = S extends `${infer F}-${infer R}` ? (R extends Capitalize<R> ? `${F}-${CamelCase<R>}` : `${F}${CamelCase<Capitalize<R>>}`) : S

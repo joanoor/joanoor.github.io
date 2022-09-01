@@ -5,7 +5,7 @@ categories: typescript
 tags: [ts]
 ---
 
->协变与逆变(covariance and contravariance)是在计算机科学中，描述“具有父/子类别关系的多个类别” 通过 “类别构造器”，构造出的 “多个复杂类别之间是否有父/子类别关系” 的用语  
+> 协变与逆变(covariance and contravariance)是在计算机科学中，描述“具有父/子类别关系的多个类别” 通过 “类别构造器”，构造出的 “多个复杂类别之间是否有父/子类别关系” 的用语  
 
 定义两个接口
 ```ts
