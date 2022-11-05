@@ -1,0 +1,25 @@
+@charset "UTF-8";
+/* 这里表示各种天气情况的时候，widget的背景样式 */
+.xt-fineday {
+  background: linear-gradient(rgb(40, 105, 233), rgb(121, 191, 255));
+  background-size: cover;
+}
+
+.xt-cloudday {
+  background: linear-gradient(to bottom, rgb(49, 118, 200) 0%, #1e528e 70%, #5b7983 100%);
+  transition: all 0.3s ease-in-out;
+}
+
+.xt-heavyday {
+  background: linear-gradient(to bottom, rgb(111, 124, 133), rgb(145, 155, 159));
+  transition: all 0.3s ease-in-out;
+}
+
+.xt-night {
+  background: linear-gradient(to bottom, #1a2238 40%, #222 100%);
+  transition: all 0.3s ease-in-out;
+}
+
+.xt-starry {
+  background: radial-gradient(220% 105% at top center, #1b2947 80%, #222);
+}/*# sourceMappingURL=background.css.map */

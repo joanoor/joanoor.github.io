@@ -201,8 +201,8 @@ type User = {
 
 ## **常见错误？**
 1、Non-relative paths are not allowed when 'baseUrl' is not set. Did you forget a leading './'?  
-在tsconfig.json文件中加：
-```
+在tsconfig.json文件中添加：
+```json
 {
   "baseUrl": "./",
 }
@@ -211,11 +211,22 @@ type User = {
 2、Property 'context' does not exist on type 'NodeRequire'.  
 安装 ```npm i @types/webpack-env -D```  
 在tsconfig.json文件中加：
-```
+```json
 {
   "types": ["webpack-env"],
 }
 ```
+
+3、tsconfig.json 报错 无法写错写入文件 ，因为他会覆盖输入文件是怎么回事？  
+在tsconfig.json文件中添加：
+```json
+{
+  "compilerOptions": {
+    "outDir": "./"
+  }
+}
+```
+
 
 
 

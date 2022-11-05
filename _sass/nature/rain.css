@@ -1,0 +1,108 @@
+.xt-weather-thunder {
+  border: unset;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  -webkit-animation-name: thunder;
+          animation-name: thunder;
+  -webkit-animation-duration: var(--thunder-duration);
+          animation-duration: var(--thunder-duration);
+  -webkit-animation-timing-function: linear;
+          animation-timing-function: linear;
+  -webkit-animation-delay: var(--thunder-delay);
+          animation-delay: var(--thunder-delay);
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+}
+
+hr:not(.xt-weather-thunder) {
+  width: 120px;
+  border-color: transparent;
+  border-right-color: rgba(255, 255, 255, 0.7);
+  border-right-width: 40px;
+  position: absolute;
+  bottom: 100%;
+  transform-origin: 100% 50%;
+  -webkit-animation-name: rain;
+          animation-name: rain;
+  -webkit-animation-duration: 1s;
+          animation-duration: 1s;
+  -webkit-animation-timing-function: linear;
+          animation-timing-function: linear;
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+}
+
+@-webkit-keyframes rain {
+  from {
+    transform: rotate(105deg) translateX(0);
+  }
+  to {
+    transform: rotate(105deg) translateX(100vh);
+  }
+}
+
+@keyframes rain {
+  from {
+    transform: rotate(105deg) translateX(0);
+  }
+  to {
+    transform: rotate(105deg) translateX(100vh);
+  }
+}
+@-webkit-keyframes thunder {
+  0% {
+    background-color: transparent;
+  }
+  1% {
+    background-color: white;
+  }
+  2% {
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+  8% {
+    background-color: transparent;
+  }
+}
+@keyframes thunder {
+  0% {
+    background-color: transparent;
+  }
+  1% {
+    background-color: white;
+  }
+  2% {
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+  8% {
+    background-color: transparent;
+  }
+}
+@-webkit-keyframes thunderInner {
+  0% {
+    background-color: black;
+  }
+  1% {
+    background-color: rgb(153, 153, 153);
+  }
+  2% {
+    background-color: rgb(122, 122, 122);
+  }
+  8% {
+    background-color: black;
+  }
+}
+@keyframes thunderInner {
+  0% {
+    background-color: black;
+  }
+  1% {
+    background-color: rgb(153, 153, 153);
+  }
+  2% {
+    background-color: rgb(122, 122, 122);
+  }
+  8% {
+    background-color: black;
+  }
+}/*# sourceMappingURL=rain.css.map */

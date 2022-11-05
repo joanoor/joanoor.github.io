@@ -1,0 +1,187 @@
+@charset "UTF-8";
+.container-wrapper {
+  display: block;
+  position: fixed;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+}
+.container-wrapper .cloud {
+  transition: fill 2s ease;
+}
+.container-wrapper #cloud1 {
+  fill: #efefef;
+}
+.container-wrapper #cloud2 {
+  fill: #e6e6e6;
+}
+.container-wrapper #cloud3 {
+  fill: #d5d5d5;
+}
+.container-wrapper .user-info {
+  position: absolute;
+  z-index: 1;
+  font-family: FZFSJT;
+  letter-spacing: 4px;
+  color: #fff;
+  width: 1em;
+}
+.container-wrapper .user-info1 {
+  top: 4em;
+  right: 5em;
+}
+.container-wrapper .user-info2 {
+  top: 13em;
+  right: 5em;
+}
+.container-wrapper .user-info3 {
+  top: 5.15em;
+  right: 6.5em;
+}
+.container-wrapper .user-info4 {
+  top: 14.15em;
+  right: 6.5em;
+}
+.container-wrapper .container-wrapper__innder {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(68, 68, 68, 0.6);
+  background-image: linear-gradient(140deg, rgba(68, 68, 68, 0.6) 20%, rgba(0, 0, 0, 0.9));
+}
+.container-wrapper .container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+}
+.container-wrapper .container .container-main .user-image {
+  margin-bottom: 1.2em;
+  position: relative;
+  width: 100px;
+  height: 100px;
+  border: 3px solid #fff;
+  border-radius: 100%;
+}
+
+.navigation__item {
+  display: inline-block;
+  margin: 0 1em 0 0;
+  line-height: 1em;
+}
+.navigation__item:last-child {
+  margin: 0;
+}
+
+.navigation__item a {
+  display: block;
+  position: relative;
+  width: 38px;
+  height: 38px;
+  font-size: 0.9em;
+  font-weight: bold;
+  letter-spacing: 1px;
+  border-radius: 50%;
+  border: solid 1px white;
+  position: relative;
+  color: #fff;
+  opacity: 0.8;
+}
+.navigation__item a i {
+  display: block;
+  line-height: 38px;
+  margin: 0 auto;
+  font-size: 1.1em;
+}
+.navigation__item a .label {
+  display: none;
+}
+
+.navigation__item a:hover {
+  color: #fff;
+  border-color: #fff;
+  opacity: 1;
+}
+
+.container-block {
+  position: relative;
+  min-width: 310px;
+}
+
+.container-inverted {
+  font-weight: 100;
+  text-align: center;
+  color: #fff;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+}
+
+.container-bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+.container-bg .svg-stag {
+  width: 100%;
+  height: 100%;
+}
+
+.poerty {
+  font-size: 1.3em;
+  font-family: "Times New Roman";
+  text-shadow: 3px 3px 2px #555;
+}
+
+/* 页面帮助助手 */
+.assistant-content {
+  display: none;
+  width: 16em;
+  height: 23em;
+  background: #fff;
+  border-radius: 0.5em;
+  bottom: 5.5em;
+  right: 2em;
+  z-index: 2;
+}
+
+.assistant {
+  width: 3em;
+  height: 3em;
+  border-radius: 10000px;
+  background: rgb(255, 255, 255);
+  bottom: 2em;
+  right: 2em;
+  z-index: 2;
+}
+
+.icondengpao {
+  font-size: 2em;
+  color: #000;
+}
+
+@media all and (min-width: 960px) {
+  .container-time {
+    font-size: 140px;
+  }
+  .user-info {
+    font-size: 1.6em;
+  }
+}
+@media all and (max-width: 960px) {
+  .container-time {
+    font-size: 80px;
+  }
+  .user-info {
+    font-size: 0.8em;
+  }
+}
+@media all and (max-width: 600px) {
+  .user-info {
+    display: none;
+  }
+}/*# sourceMappingURL=navigation.css.map */

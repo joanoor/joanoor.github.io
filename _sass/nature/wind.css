@@ -1,0 +1,165 @@
+.xt-windmill-wrapper {
+  position: absolute;
+  margin: 0 auto;
+  text-align: center;
+  width: calc(100% - 1.6em);
+  height: 100%;
+  display: block;
+  z-index: -1;
+}
+
+.xt-windmill-pole-wrap {
+  position: absolute;
+  transform: scale(0.85);
+  bottom: -3px;
+  left: 240px;
+  perspective: 70px;
+  z-index: 50;
+}
+
+.xt-windmill-pole-wrap.back-left {
+  left: 40px;
+  z-index: 1;
+  transform: scale(0.6);
+  transform-origin: center bottom;
+}
+
+.xt-windmill-pole-wrap.right {
+  left: 180px;
+  transform: scale(0.4);
+  transform-origin: center bottom;
+}
+
+.xt-windmill-pole {
+  position: absolute;
+  bottom: 0;
+  width: 14px;
+  height: 220px;
+  left: -7px;
+  background-color: rgba(255, 255, 255, 0.3);
+  transform: rotateX(15deg);
+  transform-origin: center bottom;
+}
+
+.xt-windmill-pole-ellipses {
+  position: absolute;
+  bottom: 100px;
+  left: 240px;
+  transform: scale(0.85);
+  z-index: 51;
+  transform-origin: center bottom;
+}
+
+.xt-windmill-pole-ellipses.back-left {
+  left: 40px;
+  bottom: 70px;
+  z-index: 3;
+  transform: scale(0.6);
+  transform-origin: center bottom;
+}
+
+.xt-windmill-pole-ellipses.right {
+  left: 180px;
+  bottom: 45px;
+  transform: scale(0.4);
+  transform-origin: center bottom;
+}
+
+.xt-windmill-pole-ellipses-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-animation: rotate-ellipses 6s linear infinite;
+          animation: rotate-ellipses 6s linear infinite;
+  -webkit-animation-play-state: paused;
+  animation-play-state: paused;
+  transition: all 300ms linear;
+}
+
+.xt-windmill-pole-ellipses-wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-animation: rotate-ellipses 2s linear infinite;
+          animation: rotate-ellipses 2s linear infinite;
+  transition: all 300ms linear;
+  -webkit-animation-play-state: running;
+  animation-play-state: running;
+}
+
+.xt-windmill-pole-ellipses-center {
+  position: absolute;
+  top: -7px;
+  left: -7px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: white;
+  z-index: 2;
+}
+
+.ellipses {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.ellipses span {
+  position: absolute;
+  top: -70px;
+  left: -5px;
+  width: 10px;
+  height: 70px;
+  border-radius: 100%;
+  background-color: rgba(255, 255, 255, 0.3);
+  transform-origin: center bottom;
+}
+
+.ellipses span:nth-child(2) {
+  transform: rotate(120deg);
+}
+
+.ellipses span:nth-child(3) {
+  transform: rotate(240deg);
+}
+
+.ellipses.delayed span {
+  transform: rotate(60deg);
+}
+
+.ellipses.delayed span:nth-child(2) {
+  transform: rotate(180deg);
+}
+
+.ellipses.delayed span:nth-child(3) {
+  transform: rotate(300deg);
+}
+
+body.slow-wind .xt-windmill-pole-ellipses-wrapper {
+  -webkit-animation-play-state: running;
+  animation-play-state: running;
+}
+
+body.slow-wind .xt-windmill-pole-ellipses-wrap {
+  -webkit-animation-play-state: paused;
+  animation-play-state: paused;
+}
+
+@-webkit-keyframes rotate-ellipses {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes rotate-ellipses {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
+}/*# sourceMappingURL=wind.css.map */

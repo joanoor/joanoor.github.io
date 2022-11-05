@@ -1,0 +1,15 @@
+$primary: #0E42D2, #165DFF, #4080FF, #6AA1FF, #94BFFF, #BEDAFF, #E8F3FF;
+$name: foo;
+$attr: border;
+
+p.#{$name} {
+  #{$attr}-color: blue;
+}
+
+@each $var in $primary {
+  $primary: $var
+}
+
+.color {
+  color: $primary
+}
