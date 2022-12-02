@@ -105,89 +105,99 @@ class Point {
 * dart中的构造函数是类用来实例化类对象并且 **与类名同名** 的方法
 * 当命名冲突的时候会使用this，否则dart的编程风格会忽略this
 * 构造函数不能被继承
-* 默认构造函数，(Dart会为每一个类自动声明一个空的构造函数)
-* 自定义构造函数
-  ```dart
-  class Fish{
-    String name;
-    String type；
-    
-    Fish(String name,String type){
-      this.name = name; // 使用this关键字，是为了防止参数名和属性名发生冲突
-      this.type = type; // 使用this关键字，是为了防止参数名和属性名发生冲突
-    }
-  }
-  ```
-  构造参数简洁写法
-  ```dart
-  class Fish{
-    String name;
-    String type；
-    
-    Fish(this.name,this.type);
-  }
-  ```
-  **注意：**  
-  > 构造函数是不能被子类继承的，如果子类没有自定义构造函数，那么它的构造参数就是空的。
-* 命名构造函数：```ClassName.identifier()```
-  ```dart
-  class Fish {
-    String name;
-    String type;
-    Fish(this.name, this.type);
-    Fish.born(String name, String type)
-        : this.name = name,
-          this.type = type {
-    }
+* 构造函数分类：
+  1. 默认构造函数，(Dart会为每一个类自动声明一个空的构造函数)
+  2. 自定义构造函数
+      ```dart
+      class Fish{
+        String name;
+        String type;
+        
+        Fish(String name,String type){
+          this.name = name; // 使用this关键字，是为了防止参数名和属性名发生冲突
+          this.type = type; // 使用this关键字，是为了防止参数名和属性名发生冲突
+        }
+      }
+      ```
+      构造参数简洁写法
+      ```dart
+      class Fish{
+        String name;
+        String type；
+        
+        Fish(this.name,this.type);
+      }
+      ```
+      **注意：**  
+      > 构造函数是不能被子类继承的，如果子类没有自定义构造函数，那么它的构造参数就是空的。
+  3. 命名构造函数：```ClassName.identifier```
+      ```dart
+      class Fish {
+        String name;
+        String type;
+        Fish(this.name, this.type); // 常见的构造函数
+        Fish.born(String name, String type) // 命名构造函数
+            : this.name = name,
+              this.type = type {
+        }
 
-  /*
-   * 或者像下面这样
-   * Fish.born(String name, String type)
-      : this.name = name,
-        this.type = type;
-   */
+      /*
+      * 或者像下面这样
+      * Fish.born(String name, String type)
+          : this.name = name,
+            this.type = type;
+      */
 
-    void sayHello() {
-      print('我是${this.name},我的类型是${this.type}');
-    }
-  }
-  ```
-  **注意：**  
-  > 它还是不能被子类继承，但是可以重写父类名称相同的命名构造函数。
-* 常量构造函数：假设类创建的对象永远不会改变，可以在编译期就创建这个常量实例，并且定义一个常量构造函数，并且确保所有的成员变量都是final的
-  ```dart
-  class ImmutablePoint {
-    static final ImmutablePoint origin = const ImmutablePoint(0, 0);
+        void sayHello() {
+          print('我是${this.name},我的类型是${this.type}');
+        }
+      }
+      ```
+      **注意：**  
+      > 它还是不能被子类继承，但是可以重写父类名称相同的命名构造函数。
+  4. 常量构造函数：假设类创建的对象永远不会改变，可以在编译期就创建这个常量实例，并且定义一个常量构造函数，并且确保所有的成员变量都是final的
+      ```dart
+      class ImmutablePoint {
+        static final ImmutablePoint origin = const ImmutablePoint(0, 0);
 
-    final num x, y;
+        final num x, y;
 
-    const ImmutablePoint(this.x, this.y);
-  }
-  ```
-* 工厂构造函数
-  ```dart
-  class Fish{
-    String name;
-    String type；
-    
-    // Fish 单例具体实现
-    static Fish fish;
-    
-    Fish._born(this.name):age = 0
-    
-    factory Fish(){
-       if(fish == null){
-            fish = Fish._born('单例鱼');
-       }
-       return fish;
-    }
-  }
+        const ImmutablePoint(this.x, this.y);
+      }
+      ```
+  5. 工厂构造函数
+      ```dart
+      class Fish{
+        String name;
+        String type；
+        
+        // Fish 单例具体实现
+        static Fish fish;
+        
+        Fish._born(this.name):age = 0
+        
+        factory Fish(){
+          if(fish == null){
+                fish = Fish._born('单例鱼');
+          }
+          return fish;
+        }
+      }
 
-  void main(){
-      Fish fish = new Fish();
-      print(fish.name);
-  }
-  ```
-* 构造函数的执行顺序  
-  * 默认情况下：子类的构造函数会在构造函数体的一开始就调用父类的未命名无参的构造函数  
-  * 修改默认调用情况：在子类构造函数体前面添加```: superclass constructor```
+      void main(){
+          Fish fish = new Fish();
+          print(fish.name);
+      }
+      ```
+* 构造函数的执行顺序
+  1. 初始化列表  
+  2. 父类的未命名无参的构造函数  
+  3. 如果父类不包括默认构造函数，就必须手动调用父类的构造器```: superclass constructor```
+
+### 获取对象的类型
+通过对象的runtimeType属性
+```dart
+print('The type of a is ${a.runtimeType}');
+```
+
+注意：请使用类型测试操作符而不是runtimeType。生产环境中，```object is Type```比```object.runtimeType==Type```更加健壮和稳定
