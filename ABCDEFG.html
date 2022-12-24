@@ -1,156 +1,34 @@
 <!DOCTYPE html>
-<html lang="zh-cmn-Hans">
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Mock.js/1.0.0/mock.js"
-    integrity="sha512-1FaGFIENKZ1MPVqQqO1Ua+liNbj+OqnEEo43ol86W0qaQW3kaWy8/yazG/UCAOYNeJWlESrsiJm9Voio/u7Vag=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-  <style>
-    div {
-      box-sizing: border-box;
-    }
-
-    .tooltip-container {
-      width: 180px;
-      height: 164px;
-      background: linear-gradient(320deg, #fdfeff 0%, #f4f7fc 100%);
-      border: 0.5px solid;
-      border-image: linear-gradient(335deg, #ffffff 0%, rgba(255, 255, 255, 0.00) 100%) 0.5 0.5;
-      border-radius: 6px;
-      backdrop-filter: blur(10px);
-      padding: 8px;
-    }
-
-    .tooltip-container-title {
-      height: 20px;
-      font-size: 12px;
-      font-family: PingFang SC, PingFang SC-Medium;
-      font-weight: 600;
-      color: #1d2129;
-      line-height: 20px;
-    }
-
-    .tooltip-container-subtitle {
-      height: 20px;
-      font-size: 12px;
-      font-family: PingFang SC, PingFang SC-Regular;
-      font-weight: 400;
-      color: #1d2129;
-      line-height: 20px;
-      margin-bottom: 4px;
-    }
-
-    .tooltip-container-box {
-      /* width: 164px; */
-      height: 32px;
-      background: rgba(255, 255, 255, 0.90);
-      border-radius: 4px;
-      box-shadow: 6px 0px 20px 0px rgba(34, 87, 188, 0.10);
-      margin-bottom: 4px;
-      display: flex;
-      align-items: center;
-      padding-left: 8px;
-      padding-right: 8px;
-    }
-
-    .tooltip-container-box:last-child {
-      margin-bottom: 0
-    }
-
-    .circle {
-      width: 10px;
-      height: 10px;
-      border-radius: 10px;
-      margin-right: 8px
-    }
-
-    .cyan {
-      background-color: #0FC6C2;
-    }
-
-    .blue {
-      background-color: #3491FA;
-    }
-
-    .gold {
-      background-color: #F7BA1E;
-    }
-
-    .name {
-      height: 20px;
-      font-size: 12px;
-      font-family: PingFang SC, PingFang SC-Regular;
-      font-weight: 400;
-      color: #4e5969;
-      line-height: 20px;
-      flex: 1 1 0%;
-    }
-
-    .value {
-      width: 38%;
-      height: 15px;
-      font-size: 13px;
-      font-family: Roboto, Roboto-Bold;
-      font-weight: 700;
-      text-align: right;
-      color: #1d2129;
-      line-height: 13px;
-    }
-  </style>
 </head>
 
 <body>
-  <div class="tooltip-container">
-    <div class="tooltip-container-title">
-      1#计量表
-    </div>
-    <div class="tooltip-container-subtitle">
-      2022-08-20 06:15:00
-    </div>
-    <div class="tooltip-container-box">
-      <div class="circle cyan"></div>
-      <div class="name">A</div>
-      <div class="value">dd V</div>
-    </div>
-    <div class="tooltip-container-box">
+  <div id="one">
 
-      <div class="circle blue"></div>
-      <div class="name">B</div>
-      <div class="value">110 V</div>
-    </div>
-    <div class="tooltip-container-box">
-      <div class="circle gold"></div>
-      <div class="name">C</div>
-      <div class="value">120 V</div>
-    </div>
+    <div id="two"></div>
   </div>
-  <!-- <script>
-    // 数据模板中的每个属性由 3 部分构成：属性名、生成规则、属性值：
-    console.log(
-      // window.Mock.mock( {
-      //   'list|1-10': [ {
-      //     // 属性 id 是一个自增数，起始值为 1，每次增 1
-      //     'id|+1': 1
-      //   } ]
-      // } )
+  <script>
+    const $one = document.getElementById( 'one' )
+    const $two = document.getElementById( 'two' )
+    const event = new CustomEvent( 'eeee', {
+      // bubbles: true,
+      detail: {
+        a: 100
+      }
+    } )
 
-      // 
-      window.Mock.mock( {
-        'list|10': [
-          {
-            'id|+1': 1,
-            'name': '@string',//字符串
-            'point': '@integer',//整形
-            'birthday': '@date'//日期
-          } ]
-      } )
-    )
-  </script> -->
+    $one.addEventListener( 'eeee', ( tt ) => {
+      console.log( `tt=>`, tt.detail )
+    } )
+
+    $two.dispatchEvent( event )
+  </script>
 </body>
 
 </html>

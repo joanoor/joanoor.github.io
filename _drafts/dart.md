@@ -169,7 +169,7 @@ class Point {
       ```dart
       class Fish{
         String name;
-        String type；
+        String type;
         
         // Fish 单例具体实现
         static Fish fish;
