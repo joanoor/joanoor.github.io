@@ -64,6 +64,8 @@ let value4:boolean = value33   // ok
 ```
 
 ### 3. **.d.ts和.ts文件的区别**
+类型定义文件(*.d.ts)  DefinitelyTyped的简写  
+
 🐔 .ts 表示你的代码就是用 ts 写的。  
 🐔 但这种代码最后会编译成js代码，供他人使用。这个时候，类型信息就丢失了。所以 ts 编译器会自动根据 .ts 中的信息，生成对外的 .d.ts 文件，和生成的 js 文件搭配使用。其中，js 文件是给运行引擎用的，而 .d.ts 文件是给 IDE（智能编辑器）写代码时参考用的。  
 🐔 另一种情况是，你的代码不是用 ts 写的，只是希望最后给别人用时能有类型信息作为辅助，那么这种情况下的 .d.ts 文件就需要你手写了。  
@@ -78,6 +80,8 @@ let value4:boolean = value33   // ok
 🐟 如果使用的是declare namespace ...则表明这个.d.ts也是一个声明模块文件，在其他文件中可以通过import来引入，或者/// <reference />引入  
 
 🐟 如果使用的是declare type ...，且文件不是模块文件，则这个声明的类型可以全局使用，无需引入  
+
+🐟 如果文件时模块文件（存在 import 或者 export），则可以使用declare global来定义全局；如果不是模块文件，默认就是declare global，不需要再使用declare global来定义
 
 🐟 参见：  
   1. [在TypeScript中，.d.ts声明文件中的 'export=' 是什么意思](https://segmentfault.com/q/1010000010118685)
@@ -199,6 +203,13 @@ type User = {
 ### 9. 索引签名 VS Record工具类型
 参见：😈😈😈 [TypeScript 索引签名 vs Record 工具类型](https://juejin.cn/post/7087971365449367565)
 
+### 10. typescript查找类型定义
+1. 包类型定义的查找  
+   TypeScript 编译器先在当前编译上下文找类型定义，如果没找到，则会去 node_modules 中的@types （默认情况，可在tsconfig.json中修改）目录下去寻找对应包名的模块声明文件
+2. 变量类型定义的查找  
+   和包查找类似，默认情况下变量类型定义的查找也会去 @types 下去寻找。只不过并不是直接去 @types 找，而是有一定的优先级， 这个过程类似原型链或者作用域链。
+参见：[TS类型定义详解：types/typeRoots/@types，以及命名空间namespace](https://www.zhoulujun.cn/html/webfront/ECMAScript/typescript/2021_1129_8715.html)
+
 ## **常见错误？**
 1、Non-relative paths are not allowed when 'baseUrl' is not set. Did you forget a leading './'?  
 在tsconfig.json文件中添加：
@@ -227,6 +238,17 @@ type User = {
 }
 ```
 
+4、 报错 “This syntax requires an imported helper but module 'tslib' cannot be found.ts(2354)”？  
+该报错的罪魁祸首便是 tsconifg.compilerOptions 中的 importHelpers。通过查阅文档可知，开启该选项后，一些降级操作会从 tslib 导入
+
+tslib 这个库的作用是把一系列的降级代码（函数）抽离并合并导出的库。目的是降低编译后代码的数量，起到压缩代码体积的作用。
+
+如果你的运行环境有明确的 JavaScript 版本需求，那我强烈建议你打开 importedHelper 这个选项，并安装 tslib 这个依赖，我相信它能在一定程度上压缩整个项目的体积。
+
+参见：[typescript 之 tslib 是什么，你需要它吗](https://juejin.cn/post/7136104350912348174)
+
+5、tsconfig.json报错 “Unable to load schema from 'https://json.schemastore.org/tsconfig'”  
+vscode关闭 设置 —— 扩展 —— JSON —— Schema Download: Enable
 
 
 
