@@ -9,3 +9,4 @@ node_modules/
 .jekyll-metadata
 ddd.html
 demo.html
+*.code-workspace

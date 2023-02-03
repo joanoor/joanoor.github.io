@@ -19,7 +19,7 @@ tags: []
 ## tsconfig.json顶层属性
 ```json
 {
-  "extends": "", // 继承配置
+  "extends": "", // 值是一个字符串，包含指向另一个要继承文件的路径，继承的配置文件的相对路径在解析时是相对于它所在的文件的。在原文件里的配置先被加载，然后被来自继承文件里的配置（ 包括：files, include 和 exclude等）重写。如果发现循环引用，则会报错。（目前，唯一被排除在继承之外的顶级属性是references）
   "compileOnSave": true, //让IDE在保存文件的时候根据tsconfig.json重新生成文件
   "compilerOptions": {},  // 编译选项
   "files": [],  // 一个包含相对或绝对文件路径的列表（这里面的文件可以被tsconfig作用到）
@@ -41,6 +41,8 @@ tags: []
 {
   // ...
   "compilerOptions": {
+    "forceConsistentCasingInFileNames": true, // 是否强制代码中使用的模块文件名必须和文件系统中的文件名保持大小写一致
+    "composite": true,  // 强制执行某些约束，使构建工具能够快速确定项目是否已构建；为true，则declaration默认为true，incremental默认也为团设
     "incremental": true, // TS编译器在第一次编译之后会生成一个存储编译信息的文件，第二次编译会在第一次的基础上进行增量编译，可以提高编译的速度
     "tsBuildInfoFile": "./buildFile", // 增量编译文件的存储位置
     "diagnostics": true, // 打印诊断信息 
@@ -59,7 +61,7 @@ tags: []
     "inlineSourceMap": true, // 生成目标文件的inline SourceMap，inline SourceMap会包含在生成的js文件中
     "declarationMap": true, // 为声明文件生成sourceMap
     "typeRoots": [], // 声明文件目录，默认是node_modules/@types
-    "types": [], // TypeScript 编译器会默认引入typeRoot下所有的声明文件，如果不想全局引入定义，则通过types来进行配置
+    "types": [], // TypeScript 编译器会默认引入typeRoots下所有的声明文件，如果不想全局引入定义，则通过types来进行配置
     "removeComments":true, // 删除注释 
     "noEmit": true, // 不输出文件,即编译后不会生成任何js文件
     "noEmitOnError": true, // 发送错误时不输出任何文件
@@ -90,6 +92,7 @@ tags: []
     "listEmittedFiles": true, // 打印输出文件
     "listFiles": true// 打印编译的文件(包括引用的声明文件)
   }
+}
 ```
 
 ## 备注
